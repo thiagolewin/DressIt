@@ -1,29 +1,15 @@
 import "./Register.css"
 import { useState } from "react";
 import { Link } from 'react-router-dom';
-import { useEffect } from "react";
-import { gapi } from "gapi-script";
-import GoogleLogin from "react-google-login";
+import GoogleLogin from 'react-google-login';
 const Register = ()=> {
+    const respuestaGoogle=(respuesta)=> {
+        console.log(respuesta)
+    }
     const handleSubmit = (event) => {
         event.preventDefault();
       };
-    const clientID = "460073557739-hrhsjlb71js93grvplklhk7m2j6v8fft.apps.googleusercontent.com" 
-    useEffect(()=>{
-        const start = () => {
-            gapi.auth2.init({
-                clientID: clientID,
-            })
-        }
-        gapi.load("client:auth2",start)
-    },[])
 
-    const onSuccess = (response)=> {
-        console.log(response)
-    }
-    const onFailure = ()=> {
-        console.log("Something went wrong")
-    }
     const [email, setEmail] = useState('');
     const [nombre, setNombre] = useState('');
     const [user, setUser] = useState('');
@@ -72,9 +58,19 @@ const Register = ()=> {
                 <hr />
             </div>
             <button className="logExtern">
+            <GoogleLogin
+                className="loginGoogle"
+                clientId="612029047571-iitrg3be3j61v7nt8r4dbs9trauir8vp.apps.googleusercontent.com"
+                buttonText="Login"
+                onSuccess={respuestaGoogle}
+                onFailure={respuestaGoogle}
+                cookiePolicy={'single_host_origin'}
+            />
                 <img src="./src/img/goo.png" alt="" />
                 <h3>Usar Google</h3>
+              
             </button>
+           
             <button className="logExtern">
                 <img src="./src/img/face.png" alt="" />
                 <h3>Usar FaceBook</h3>
@@ -82,12 +78,6 @@ const Register = ()=> {
             <h2>Ya tienes cuenta?</h2>
             <Link to="/login" className="buttonLink">Iniciar Sesión</Link>
             <div className="btn">
-            <GoogleLogin 
-                clientID={clientID}
-                onSuccess= {onSuccess}
-                onFailure ={onFailure}
-                cookiePolicy={"single_host_policy"}
-                />
             </div>
         </section>
     );

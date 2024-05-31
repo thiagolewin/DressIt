@@ -112,3 +112,10 @@ h2 {
     align-items: center;
     cursor: pointer;
 }
+.loginGoogle {
+    width: 40vw !important;
+    height: 40px !important;
+    opacity: 0 !important;
+    position: absolute;
+    z-index: 1000 !important;
+} 
