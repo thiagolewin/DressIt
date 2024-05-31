@@ -2,9 +2,11 @@ import "./Register.css"
 import { useState } from "react";
 import { Link } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
+import { useNavigate } from "react-router-dom";
 const Register = ()=> {
-    const respuestaGoogle=(respuesta)=> {
-        console.log(respuesta)
+    const navigateTo = useNavigate();
+    const respuestaGoogle=()=> {
+        navigateTo("/inicio");
     }
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -15,7 +17,7 @@ const Register = ()=> {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
     return (
-        <section >
+        <section id="Register">
             <h1>DressIt</h1>
             <form onSubmit={handleSubmit}>
             <input
@@ -69,11 +71,6 @@ const Register = ()=> {
                 <img src="./src/img/goo.png" alt="" />
                 <h3>Usar Google</h3>
               
-            </button>
-           
-            <button className="logExtern">
-                <img src="./src/img/face.png" alt="" />
-                <h3>Usar FaceBook</h3>
             </button>
             <h2>Ya tienes cuenta?</h2>
             <Link to="/login" className="buttonLink">Iniciar Sesión</Link>

@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-section {
+#start {
     height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-h1 {
+#start h1 {
     font-family: "Montserrat", sans-serif;
     letter-spacing: -10px;
     font-size: 6em;     

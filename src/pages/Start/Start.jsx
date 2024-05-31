@@ -9,7 +9,7 @@ const Start = ()=> {
     };
 
     return (
-        <section onClick={handleRedirectToLogin}>
+        <section onClick={handleRedirectToLogin} id="start">
             <h1>DressIt</h1>
         </section>
     );

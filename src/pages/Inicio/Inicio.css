@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+section {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+#inicio h1 {
+    margin-left: 20px;
+    margin-top: 40px;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: -7px;
+    font-size: 3.5em;     
+    color: #000000;
+    animation: slideIn 1s ease-out;
+}
+#inicio .tituloMarcas {
+
+    display: flex;
+    flex-direction: column;
+}
+#inicio .tituloMarcas hr {
+    margin-top: 20px;
+    height: 3px;
+    background-color: #000000;
+}
+#inicio .marcas {
+    box-sizing: border-box;
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+#inicio .marcas .marca {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#inicio .marcas .marca img {
+    width: 60px;
+    height: 60px;
+    border-radius: 9999;
+}
+#inicio .marcas .marca h4{
+    align-items: center;
+    font-size: 0.8em;
+    font-family: "Roboto", sans-serif;
+}
+#inicio .buttonLink {
+    font-family: "Montserrat", sans-serif;
+    width: 100px;
+    letter-spacing: -2px;
+    height: 30px;
+    font-weight: 400;
+    text-decoration: none;
+    background-color: #000000;
+    color: white;
+    font-size: 1.5em;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+#inicio .articulos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#inicio .articulos .buttonLink {
+    align-self: flex-end;
+}
+#inicio .productos {
+    display: flex;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    padding: 0 15px;
+    cursor: pointer;
+    justify-content: space-between;
+}
+#inicio .productos .producto {
+    display: flex;
+    width: 120px;
+    max-height: 30vw;
+    margin-bottom: 15px;
+    flex-direction: column;
+    align-items: center;
+}
+#inicio .productos .producto .productoImg {
+    height: 150px;
+    width: 100%;
+    border: 1px solid black;
+    position: relative;
+    background-image: url("./src/img/remeraTussy.png");
+    background-position: center;
+    background-size: cover;
+}
+#inicio .productos .producto .productoImg h6 {
+    position: absolute;
+    bottom: 0;
+    padding: 5px 15px;
+    font-weight: 900;
+    background-color: #EDE8D0;
+    font-family: "Roboto", sans-serif;
+}
+#inicio .productos .producto h3 {
+    font-family: "Roboto", sans-serif;
+    font-size: 0.8em;
+}

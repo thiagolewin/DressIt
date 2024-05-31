@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-section {
+#login {
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -8,7 +8,7 @@ section {
     justify-content: start;
     align-items: center;
 }
-h1 {
+#login h1 {
     margin-top: 40px;
     font-family: "Montserrat", sans-serif;
     letter-spacing: -8px;
@@ -16,22 +16,22 @@ h1 {
     color: #000000;
     animation: slideIn 1s ease-out;
 }
-form {
+#login form {
     margin-top: 80px;
     display: flex;
     flex-direction: column;
 }
-form input {
+#login form input {
     width: 60vw;
     height: 30px;
     margin-top: 20px;
     font-size: 0.8em;
     padding-left: 5px;
 }
-form input::placeholder {
+#login form input::placeholder {
     font-weight: 600;
 }
-form button {
+#login form button {
     font-family: "Montserrat", sans-serif;
     width: 60vw;
     letter-spacing: -2px;
@@ -44,7 +44,7 @@ form button {
     padding-left: 5px;
     cursor: pointer;
 }
-form .link {
+#login form .link {
     cursor: pointer;
    text-align: right;
    text-decoration: none;
@@ -53,7 +53,7 @@ form .link {
    font-size: 0.9em;
    font-family: "Roboto", sans-serif;
 }
-.Barra {
+#login .Barra {
     display: flex;  
     justify-content: space-between;
     align-items: center;
@@ -61,12 +61,12 @@ form .link {
     margin-bottom: 40px;
     margin-top: 50px;
 }
-.Barra hr {
+#login .Barra hr {
     height: 1px;
     width: 45%;
     background-color: #000000;
 }
-.logExtern {
+#login .logExtern {
     position: relative;
     display: flex;
     align-items: center;
@@ -79,24 +79,24 @@ form .link {
     background-color: white;
     border: 1px solid black;
 }
-.logExtern h3 {
+#login .logExtern h3 {
     margin-left: 20px;
     font-family: "Roboto", sans-serif;
     font-weight: 500;
 }
-.logExtern img {
+#login .logExtern img {
     margin-left: 5px;
     left: 0;
     position: absolute;
     width: 30px;
     height: 30px;
 }
-h2 {
+#login h2 {
     font-size: 1.3em;
     font-family: "Roboto", sans-serif;
     font-weight: 500;
 }
-.buttonLink {
+#login .buttonLink {
     font-family: "Montserrat", sans-serif;
     width: 40vw;
     letter-spacing: -2px;
@@ -113,7 +113,7 @@ h2 {
     align-items: center;
     cursor: pointer;
 }
-.loginGoogle {
+#login .loginGoogle {
     width: 40vw !important;
     height: 40px !important;
     opacity: 0 !important;
