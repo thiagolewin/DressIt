@@ -1,5 +1,10 @@
 import './Inicio.css'
+import { useNavigate } from "react-router-dom";
 const Inicio = ()=> {
+    const navigateTo = useNavigate();
+    const handlePrendaClick = ()=> {
+        navigateTo("/prenda")
+    }
     return(
         <section id='inicio'>
             <div className='tituloMarcas'>
@@ -35,7 +40,7 @@ const Inicio = ()=> {
             <div className='articulos'>
                 <button className='buttonLink'>Filtros</button>
                 <article className='productos'>
-                    <div className='producto'>
+                    <div className='producto'  onClick={handlePrendaClick}>
                         <div className='productoImg'>
                             <h6>35000$</h6>
                         </div>
