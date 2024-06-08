@@ -5,6 +5,7 @@
     flex-direction: column;
     justify-content: start;
     align-items: start;
+    min-height: calc(100vh - 85px);
     margin-bottom: 20px;
 }
 #inicio h1 {
@@ -57,10 +58,10 @@
     text-decoration: none;
     background-color: #000000;
     color: white;
-    font-size: 1.5em;
-    margin-top: 20px;
+    font-size: 1.1em;
+    margin-top: 10px;
     margin-right: 20px;
-    padding: 0 45px;
+    padding: 0 35px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -68,6 +69,7 @@
 }
 #inicio .articulos {
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
 }
@@ -76,40 +78,105 @@
 }
 #inicio .productos {
     display: flex;
-    margin-top: 30px;
+    margin-top: 10px;
     flex-wrap: wrap;
-    padding: 0 15px;
-    cursor: pointer;
+    width: 100%;
+    padding: 0 5px;
     justify-content: space-between;
 }
 #inicio .productos .producto {
     display: flex;
-    width: 31%;
-    max-height: 30vw;
-    margin-bottom: 15px;
+    width: 32%;
+    margin-bottom: 30px;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
 }
 #inicio .productos .producto .productoImg {
-    height: 150px;
+    position: relative;
+}
+#inicio .productos .producto .productoImg img{
+    height: auto;
     width: 100%;
     border: 1px solid black;
     position: relative;
-    background-image: url("./src/img/remeraTussy.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size:contain;
+    background-size:cover;
 }
 #inicio .productos .producto .productoImg h6 {
     position: absolute;
-    bottom: 0;
+    bottom: 8px;
+    left: 4px;
     padding: 2px 10px;
     font-size: 0.7em;
     font-weight: 900;
     background-color: #EDE8D0;
+    text-align: center;
     font-family: "Roboto", sans-serif;
 }
 #inicio .productos .producto h3 {
+    text-align: center;
     font-family: "Roboto", sans-serif;
     font-size: 0.8em;
 }
+.width100 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dot-wave {
+    margin-bottom: 30px;
+    --uib-size: 50px;
+    --uib-speed: 0.8s;
+    --uib-color: #0d0909;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: var(--uib-size);
+    height: calc(var(--uib-size) * 0.17);
+    padding-top: calc(var(--uib-size) * 0.34);
+  }
+  
+  .dot-wave__dot {
+    width: 100%;
+    flex-shrink: 0;
+    width: calc(var(--uib-size) * 0.17);
+    height: calc(var(--uib-size) * 0.17);
+    border-radius: 50%;
+    background-color: var(--uib-color);
+    will-change: transform;
+  }
+  
+  .dot-wave__dot:nth-child(1) {
+    animation: jump824 var(--uib-speed) ease-in-out
+      calc(var(--uib-speed) * -0.45) infinite;
+  }
+  
+  .dot-wave__dot:nth-child(2) {
+    animation: jump824 var(--uib-speed) ease-in-out
+      calc(var(--uib-speed) * -0.3) infinite;
+  }
+  
+  .dot-wave__dot:nth-child(3) {
+    animation: jump824 var(--uib-speed) ease-in-out
+      calc(var(--uib-speed) * -0.15) infinite;
+  }
+  
+  .dot-wave__dot:nth-child(4) {
+    animation: jump824 var(--uib-speed) ease-in-out infinite;
+  }
+  
+  @keyframes jump824 {
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+  
+    50% {
+      transform: translateY(-200%);
+    }
+  }
+  

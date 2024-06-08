@@ -16,7 +16,7 @@ const Search = ()=> {
                 <h6>x</h6>
             </div>
             <div className='perfil'>
-                <img src="./src/img/zara.jpg" alt="" />
+                <img src="./src/img/zara.png" alt="" />
                 <div className='titleDescription'>
                     <h4>Zara</h4>
                     <h5>Woman Collection</h5>
