@@ -4,8 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Producto from './Producto.jsx';
 
 async function TraerPrendas(offset, limit) {
-    let prendas = await fetch(`http://localhost:3000/api/wearExample?offset=${offset}&limit=${limit}`);
-    console.log("a")
+    let prendas = await fetch(`http://localhost:3000/api/wear?offset=${offset}&limit=${limit}`);
     prendas = await prendas.json();
     prendas = prendas.filter(element => !(element==null));
     console.log(prendas);
@@ -86,8 +85,8 @@ const Inicio = () => {
             <div className='articulos'>
                 <button className='buttonLink'>Filtros</button>
                 <article className='productos' ref={ref}>
-                    {prendas.map((element, index) => (
-                        <Producto key={index} backgroundImageUrl={element.img} precio={element.precio} titulo={element.title} />
+                    {prendas.map(element => (
+                        <Producto key={element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
                     ))}
                     {loading && <div className='width100'><div class="dot-wave">
     <div class="dot-wave__dot"></div>
