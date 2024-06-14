@@ -1,0 +1,17 @@
+#Result {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    padding-top: 40px;
+    min-height: calc(100vh - 65px);
+    background-color: white;
+}
+#Result h1 {
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: -3px;
+    font-size: 2.5em;     
+    cursor: pointer;
+    color: black;
+    animation: slideIn 1s ease-out;
+}

@@ -1,5 +1,4 @@
 import './Inicio.css';
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from 'react';
 import Producto from './Producto.jsx';
 
@@ -12,7 +11,6 @@ async function TraerPrendas(offset, limit) {
 }
 
 const Inicio = () => {
-    const navigateTo = useNavigate();
     const [prendas, setPrendas] = useState([]);
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -44,10 +42,6 @@ const Inicio = () => {
         setOffset(offset + 30);  
         console.log(loading)
         setLoading(false);
-    };
-
-    const handlePrendaClick = () => {
-        navigateTo("/prenda");
     };
 
     return (
@@ -86,13 +80,13 @@ const Inicio = () => {
                 <button className='buttonLink'>Filtros</button>
                 <article className='productos' ref={ref}>
                     {prendas.map(element => (
-                        <Producto key={element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
+                        <Producto idCreator = {element.idCreator} id={element.id}key={element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
                     ))}
-                    {loading && <div className='width100'><div class="dot-wave">
-    <div class="dot-wave__dot"></div>
-    <div class="dot-wave__dot"></div>
-    <div class="dot-wave__dot"></div>
-    <div class="dot-wave__dot"></div>
+                    {loading && <div className='width100'><div className="dot-wave">
+    <div className="dot-wave__dot"></div>
+    <div className="dot-wave__dot"></div>
+    <div className="dot-wave__dot"></div>
+    <div className="dot-wave__dot"></div>
 </div></div>}
                 </article>
             </div>

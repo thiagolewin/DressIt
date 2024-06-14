@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
-const Producto = ({backgroundImageUrl,precio,titulo})=> {
+const Producto = ({idCreator,id,backgroundImageUrl,precio,titulo})=> {
     const navigateTo = useNavigate();
     const handlePrendaClick = ()=> {
-        navigateTo("/prenda")
+        navigateTo("/" +idCreator+"/" +id)
     }
     return ( 
     <div className='producto'  onClick={handlePrendaClick}>

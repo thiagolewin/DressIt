@@ -11,6 +11,7 @@
 #inicio h1 {
     margin-left: 20px;
     margin-top: 40px;
+    cursor: pointer;
     font-family: "Montserrat", sans-serif;
     letter-spacing: -7px;
     font-size: 3.5em;     
