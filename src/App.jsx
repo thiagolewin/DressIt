@@ -7,8 +7,10 @@ import Inicio from './pages/Inicio/Inicio.jsx';
 import NavBar from './pages/NavBar/NavBar.jsx';
 import Search from './pages/Search/Search.jsx';
 import Prenda from './pages/Prenda/Prenda.jsx';
-import Probar from './pages/Probar/Probar.jsx'
-import Result from './pages/Result/Result.jsx'
+import Probar from './pages/Probar/Probar.jsx';
+import Result from './pages/Result/Result.jsx';
+import Marca from './pages/Marca/Marca.jsx';
+
 function App() {
   return (
     <Router>
@@ -27,6 +29,7 @@ function Main() {
       <Routes>
         <Route path="/" element={<Start />} />
         <Route path="/:idCreator/:id" element={<Prenda />} />
+        <Route path="/:idCreator/" element={<Marca />} />
         <Route path="/probar/:img" element={<Probar/>} />
         <Route path="/result/:img" element={<Result/>} />
         <Route path="/login" element={<Login />} />

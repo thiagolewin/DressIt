@@ -1,6 +1,7 @@
 import './Inicio.css';
 import { useState, useEffect, useRef } from 'react';
 import Producto from './Producto.jsx';
+import MarcaCard from './marca_card.jsx';
 
 async function TraerPrendas(offset, limit) {
     let prendas = await fetch(`http://localhost:3000/api/wear?offset=${offset}&limit=${limit}`);
@@ -9,15 +10,24 @@ async function TraerPrendas(offset, limit) {
     console.log(prendas);
     return prendas;
 }
+async function TraerMarcas() {
+    let marcas = await fetch(`http://localhost:3000/api/brand/`);
+    marcas = await marcas.json();
+    marcas = marcas.filter(element => !(element==null));
+    console.log(marcas);
+    return marcas;
+}
 
 const Inicio = () => {
     const [prendas, setPrendas] = useState([]);
+    const [marcas, setMarcas] = useState([]);
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
     const ref = useRef();
 
     useEffect(() => {
         cargarPrendas();
+        cargarMarcas();
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
@@ -44,50 +54,50 @@ const Inicio = () => {
         setLoading(false);
     };
 
+    const cargarMarcas = async () => {
+        if (loading) return;
+        setLoading(true);
+        const marcasObtenidas = await TraerMarcas();
+        setMarcas(marcasObtenidas);
+        console.log(marcasObtenidas);
+        console.log(loading)
+        setLoading(false);
+    };
+
     return (
         <section id='inicio'>
             <div className='tituloMarcas'>
-                <h1>DressIt</h1>
-                <article className='marcas'>
-                <div className='marca'>
-                    <img src="./src/img/zara.png" alt="" />
-                    <h4>Zara</h4>
+            {marcas.map(element => (
+                <MarcaCard key={element.id} id={element.id} name={element.name} image={element.logo}/>
+            ))}
+
+            {loading && 
+            <div className='width100'>
+                <div className="dot-wave">
+                    <div className="dot-wave__dot"></div>
+                    <div className="dot-wave__dot"></div>
+                    <div className="dot-wave__dot"></div>
+                    <div className="dot-wave__dot"></div>
                 </div>
-                <div className='marca'>
-                    <img src="./src/img/nike.png" alt="" />
-                    <h4>Nike</h4>
-                </div>
-                <div className='marca'>
-                    <img src="./src/img/addidas.png" alt="" />
-                    <h4>Addidas</h4>
-                </div>
-                <div className='marca'>
-                    <img src="./src/img/puma.png" alt="" />
-                    <h4>Puma</h4>
-                </div>
-                <div className='marca'>
-                    <img src="./src/img/converse.png" alt="" />
-                    <h4>Converse</h4>
-                </div>
-                <div className='marca'>
-                    <img src="./src/img/vans.png" alt="" />
-                    <h4>Vans</h4>
-                </div>
-                </article>
-                <hr />
+            </div>
+            }
             </div>
             <div className='articulos'>
                 <button className='buttonLink'>Filtros</button>
                 <article className='productos' ref={ref}>
-                    {prendas.map(element => (
-                        <Producto idCreator = {element.idCreator} id={element.id}key={element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
-                    ))}
-                    {loading && <div className='width100'><div className="dot-wave">
-    <div className="dot-wave__dot"></div>
-    <div className="dot-wave__dot"></div>
-    <div className="dot-wave__dot"></div>
-    <div className="dot-wave__dot"></div>
-</div></div>}
+                {prendas.map(element => (
+                    <Producto idCreator = {element.idCreator} id={element.id}key={element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
+                ))}
+                {loading && 
+                <div className='width100'>
+                    <div className="dot-wave">
+                        <div className="dot-wave__dot"></div>
+                        <div className="dot-wave__dot"></div>
+                        <div className="dot-wave__dot"></div>
+                        <div className="dot-wave__dot"></div>
+                    </div>
+                </div>
+                }
                 </article>
             </div>
         </section>
