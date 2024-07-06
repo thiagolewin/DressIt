@@ -6,17 +6,32 @@ import returnImg from "../../img/return.svg";
 import home from "../../img/home.svg";
 import photo from "../../img/photo.svg";
 import profile from "../../img/profile.svg";
-import messi from '../../img/messi.jpg'
+import galery from '../../img/galery.png'
 const Probar = () => {
   const navigateTo = useNavigate();
   const { img } = useParams();
   const urlCodificada = encodeURIComponent(img);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState("");
   const [file,setFile] = useState(null)
   const [stream, setStream] = useState(null);
   const selectedHandler = (e) => {
-    setFile(e.target.files[0])
-  };
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      setFile(selectedFile);
 
+      // Leer el archivo y establecer la URL de la imagen para la vista previa
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreviewUrl(reader.result);
+      };
+      reader.readAsDataURL(selectedFile);
+
+      let video = document.querySelector("video");
+      if (video) {
+        video.style.display = "none";
+      }
+    }
+  };
   const handleHomeClick = () => {
     navigateTo("/inicio");
   };
@@ -74,9 +89,12 @@ const Probar = () => {
               if (video) video.srcObject = stream;
             }}
           />
+    {imagePreviewUrl && <img src={imagePreviewUrl} className="ImagenPrenda" />}
         <div className="pictureOptions">
-          <img src={messi} alt="" />
-            <input type="file" className="form-control" onChange={selectedHandler}/>
+          <div className="galeria">
+          <img src={galery} alt="" />
+          <input type="file" className="form-control" onChange={selectedHandler}/>
+          </div>
           <img src={returnImg} alt="" />
         </div>
       </section>
