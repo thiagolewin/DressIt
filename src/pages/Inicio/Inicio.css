@@ -21,9 +21,7 @@
 #inicio .tituloMarcas {
     width: 100%;
     display: flex;
-    column-gap: 10px;
-    flex-wrap: nowrap;
-    padding: 10px 5px;
+    flex-direction: column;
 }
 #inicio .tituloMarcas hr {
     margin-top: 20px;
@@ -122,12 +120,6 @@
     text-align: center;
     font-family: "Roboto", sans-serif;
     font-size: 0.8em;
-}
-.marca .brand-img img{
-    width: 4rem;
-    border: 2px solid black;
-    object-fit: cover;
-    border-radius: 50px;
 }
 .width100 {
     width: 100%;

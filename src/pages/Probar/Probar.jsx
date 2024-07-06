@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Fragment } from "react";
 import "./Probar.css";
 import { useNavigate,useParams } from "react-router-dom";
 import returnImg from "../../img/return.svg";
@@ -10,22 +11,31 @@ const Probar = () => {
   const navigateTo = useNavigate();
   const { img } = useParams();
   const urlCodificada = encodeURIComponent(img);
+  const [file,setFile] = useState(null)
   const [stream, setStream] = useState(null);
-  const handleTakePic = () => {
-    if (stream) {
-        const video = document.querySelector('.takePicture');
-        const canvas = document.createElement('canvas');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        navigateTo(`/result/${urlCodificada}}`, { state: { imageUrl: canvas.toDataURL() } });
-      }
+  const selectedHandler = (e) => {
+    setFile(e.target.files[0])
   };
 
   const handleHomeClick = () => {
     navigateTo("/inicio");
   };
+  const sendHandler = ()=> {
+    if(!file) {
+      alert('Debes escoger un archivo')
+      return
+    } 
+    const formdata = new FormData()
+    formdata.append('image', file)
+
+    fetch("http://localhost:3000/api/image/post",{
+      method: "POST",
+      body: formdata
+    }).then(res => res.text()).then(res=> console.log(res)).catch(err=> {
+      console.error(err)
+    })
+    setFile(null)
+  }
 
   const handleProfileClick = () => {
     navigateTo("/search");
@@ -66,6 +76,7 @@ const Probar = () => {
           />
         <div className="pictureOptions">
           <img src={messi} alt="" />
+            <input type="file" className="form-control" onChange={selectedHandler}/>
           <img src={returnImg} alt="" />
         </div>
       </section>
@@ -74,8 +85,8 @@ const Probar = () => {
           <img src={home} alt="" />
           <h4>Home</h4>
         </div>
-        <div className="search" onClick={handleTakePic}>
-          <img src={photo} alt="" />
+        <div className="search">
+          <img src={photo} alt="" onClick={sendHandler}/>
         </div>
         <div className="profile" onClick={handleProfileClick}>
           <img src={profile} alt="" />
