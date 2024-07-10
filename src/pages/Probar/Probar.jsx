@@ -43,7 +43,7 @@ const Probar = () => {
     formData.append('background_url', file); // imageFile es el archivo que quieres subir
     formData.append('garment_url', img);
 
-    fetch("http://localhost:3000/api/image/post", {
+    fetch("https://dressitnode-uq2eh73iia-uc.a.run.app/api/image/post", {
       method: "POST",
       mode: 'no-cors',
       body: formData
@@ -55,6 +55,7 @@ const Probar = () => {
     console.log(blob)
     setImagePreviewUrl(url);
   })
+
 }
 
   const handleProfileClick = () => {
