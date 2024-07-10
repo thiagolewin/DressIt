@@ -8,7 +8,7 @@ const Search = ()=> {
 
     const Buscar = async (event) => {
         const value = event.target.value;
-        let busqueda = await fetch(`http://localhost:3000/api/wear/search/${value}`);
+        let busqueda = await fetch(`https://dressitnode-uq2eh73iia-uc.a.run.app/api/wear/search/${value}`);
         busqueda = await busqueda.json();
         busqueda = busqueda.filter(element => !(element==null));
         console.log(busqueda);

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 import { useNavigate } from "react-router-dom";
+import google from "../../img/goo.png"
 const Register = ()=> {
     const navigateTo = useNavigate();
     const respuestaGoogle=()=> {
@@ -68,7 +69,7 @@ const Register = ()=> {
                 onFailure={respuestaGoogle}
                 cookiePolicy={'single_host_origin'}
             />
-                <img src="./src/img/goo.png" alt="" />
+                <img src={google} alt="" />
                 <h3>Usar Google</h3>
               
             </button>

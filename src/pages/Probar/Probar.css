@@ -39,18 +39,19 @@
     left: 0;
     top: 0;
     opacity: 0;
-    z-index: 1000;
+    z-index: 10000;
 }
-#Probar .pictureOptions .galeria {
+#Probar .pictureOptions .contenedor {
     position: relative;
     border: 2px solid white;
     border-radius: 10px;
+    padding: 5px 10px;
 }
 #Probar .pictureOptions img {
-    width: 40px;
+    width: 30px;
     cursor: pointer;
     border-radius: 10px;
-    height: 40px;
+    height: 30px;
 }
 #NavProbar {
     display: flex;

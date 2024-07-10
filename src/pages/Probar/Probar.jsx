@@ -6,11 +6,10 @@ import returnImg from "../../img/return.svg";
 import home from "../../img/home.svg";
 import photo from "../../img/photo.svg";
 import profile from "../../img/profile.svg";
-import galery from '../../img/galery.png'
+import subir from '../../img/subir.png'
 const Probar = () => {
   const navigateTo = useNavigate();
   const { img } = useParams();
-  const urlCodificada = encodeURIComponent(img);
   const [imagePreviewUrl, setImagePreviewUrl] = useState("");
   const [file,setFile] = useState(null)
   const [stream, setStream] = useState(null);
@@ -35,22 +34,28 @@ const Probar = () => {
   const handleHomeClick = () => {
     navigateTo("/inicio");
   };
-  const sendHandler = ()=> {
+  const sendHandler = async  ()=> {
     if(!file) {
       alert('Debes escoger un archivo')
       return
     } 
-    const formdata = new FormData()
-    formdata.append('image', file)
+    const formData = new FormData();
+    formData.append('background_url', file); // imageFile es el archivo que quieres subir
+    formData.append('garment_url', img);
 
-    fetch("http://localhost:3000/api/image/post",{
+    fetch("http://localhost:3000/api/image/post", {
       method: "POST",
-      body: formdata
-    }).then(res => res.text()).then(res=> console.log(res)).catch(err=> {
-      console.error(err)
-    })
-    setFile(null)
-  }
+      mode: 'no-cors',
+      body: formData
+  }).then(res => {
+    const blob = res.blob();
+    const url = URL.createObjectURL(blob);
+    console.log(url)
+    console.log(response)
+    console.log(blob)
+    setImagePreviewUrl(url);
+  })
+}
 
   const handleProfileClick = () => {
     navigateTo("/search");
@@ -91,11 +96,14 @@ const Probar = () => {
           />
     {imagePreviewUrl && <img src={imagePreviewUrl} className="ImagenPrenda" />}
         <div className="pictureOptions">
-          <div className="galeria">
-          <img src={galery} alt="" />
+          <div className="contenedor">
+          <img src={subir} alt="" />
           <input type="file" className="form-control" onChange={selectedHandler}/>
           </div>
+          <div className="contenedor">
           <img src={returnImg} alt="" />
+          </div>
+
         </div>
       </section>
       <nav id="NavProbar">

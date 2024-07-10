@@ -1,9 +1,14 @@
 import './Inicio.css';
 import { useState, useEffect, useRef } from 'react';
 import Producto from './Producto.jsx';
-
+import zara from "../../img/zara.png"
+import Nike from "../../img/nike.png"
+import Addidas from "../../img/addidas.png"
+import Puma from "../../img/puma.png"
+import Converse from "../../img/converse.png"
+import Vans from "../../img/vans.png"
 async function TraerPrendas(offset, limit) {
-    let prendas = await fetch(`http://localhost:3000/api/wear?offset=${offset}&limit=${limit}`);
+    let prendas = await fetch(`https://dressitnode-uq2eh73iia-uc.a.run.app/api/wear?offset=${offset}&limit=${limit}`);
     prendas = await prendas.json();
     prendas = prendas.filter(element => !(element==null));
     console.log(prendas);
@@ -50,27 +55,27 @@ const Inicio = () => {
                 <h1>DressIt</h1>
                 <article className='marcas'>
                 <div className='marca'>
-                    <img src="./src/img/zara.png" alt="" />
+                    <img src={zara} alt="" />
                     <h4>Zara</h4>
                 </div>
                 <div className='marca'>
-                    <img src="./src/img/nike.png" alt="" />
+                    <img src={Nike} alt="" />
                     <h4>Nike</h4>
                 </div>
                 <div className='marca'>
-                    <img src="./src/img/addidas.png" alt="" />
+                    <img src={Addidas} alt="" />
                     <h4>Addidas</h4>
                 </div>
                 <div className='marca'>
-                    <img src="./src/img/puma.png" alt="" />
+                    <img src={Puma} alt="" />
                     <h4>Puma</h4>
                 </div>
                 <div className='marca'>
-                    <img src="./src/img/converse.png" alt="" />
+                    <img src={Converse} alt="" />
                     <h4>Converse</h4>
                 </div>
                 <div className='marca'>
-                    <img src="./src/img/vans.png" alt="" />
+                    <img src={Vans} alt="" />
                     <h4>Vans</h4>
                 </div>
                 </article>

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import Producto from '../Inicio/Producto';
 
 async function TraerPrendas(id) {
-    let prendas = await fetch(`http://localhost:3000/api/wear/brand/${id}`);
+    let prendas = await fetch(`https://dressitnode-uq2eh73iia-uc.a.run.app/api/wear/brand/${id}`);
     prendas = await prendas.json();
     console.log("prendas ", prendas)
     prendas = prendas.filter(element => !(element==null));
