@@ -35,7 +35,8 @@ const Prenda = () => {
     const irAProbar = (url) => {
         // Codificar la URL de la imagen antes de pasarla como parámetro
         const urlCodificada = encodeURIComponent(url);
-        navigateTo("/probar/" + urlCodificada);
+        const urlCodificada2 = encodeURIComponent(prenda.link);
+        navigateTo("/probar/" + urlCodificada +"/" + urlCodificada2);
     }
 
     const irAInicio = () => {
@@ -47,7 +48,17 @@ const Prenda = () => {
     }
 
     if (!prenda) {
-        return <div>Cargando...</div>;
+        return <section id='Prenda'>
+            <h1 onClick={irAInicio}>DressIt</h1>
+            <hr />
+            <img src={flecha} alt="" className='flecha' onClick={Volver} />
+            <div className='width100'><div className="dot-wave">
+    <div className="dot-wave__dot"></div>
+    <div className="dot-wave__dot"></div>
+    <div className="dot-wave__dot"></div>
+    <div className="dot-wave__dot"></div>
+</div></div>
+        </section>;
     }
 
     return (

@@ -30,7 +30,7 @@ function Main() {
         <Route path="/" element={<Start />} />
         <Route path="/:idCreator/:id" element={<Prenda />} />
         <Route path="/:idCreator/" element={<Marca />} />
-        <Route path="/probar/:img" element={<Probar/>} />
+        <Route path="/probar/:img/:site" element={<Probar/>} />
         <Route path="/result/:img" element={<Result/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
