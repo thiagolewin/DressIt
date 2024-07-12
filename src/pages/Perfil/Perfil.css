@@ -1,83 +1,69 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
-#inicio {
+#Perfil{
     display: flex;
     flex-direction: column;
     justify-content: start;
-    align-items: start;
-    min-height: calc(100vh - 85px);
-    margin-bottom: 20px;
+    align-items: center;
+    padding-top: 20px;
+    min-height: calc(100vh - 65px);
 }
-#inicio h1 {
-    margin-left: 20px;
-    margin-top: 40px;
-    cursor: pointer;
+#Perfil .profilePicture {
+    width: 100px;
+    height: 100px;
+    margin-top: 20px;
+    border-radius: 90000px;
+    border: 3px solid black;
+}
+#Perfil h2 {
+    font-weight: 700;
+    margin-top: 20px;
     font-family: "Montserrat", sans-serif;
-    letter-spacing: -7px;
-    font-size: 3.5em;     
-    color: #000000;
-    animation: slideIn 1s ease-out;
+    text-transform: capitalize;
 }
-#inicio .tituloMarcas {
+#Perfil .numberProfile {
+    display: flex;
+    margin-top: 20px;
     width: 100%;
+    justify-content: space-evenly   ;
+}
+#Perfil .numberProfile div {
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
-#inicio .tituloMarcas hr {
+#Perfil .numberProfile div h5 {
+    font-family: "Roboto", sans-serif;
+    font-size: 1em;
+}
+#Perfil .numberProfile div h4 {
+    font-family: "Roboto", sans-serif;
+    font-size: 1em;
+}
+#Perfil .follow {
+    background-color: black;
+    color: white;
+    font-size: 1.2em;
+    margin-top: 20px;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    padding: 2px 20px;
+}
+#Perfil hr {
     margin-top: 20px;
     height: 3px;
-    background-color: #000000;
-}
-#inicio .marcas {
-    box-sizing: border-box;
-    margin-top: 40px;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-}
-#inicio .marcas .marca {
-    display: flex;
-    cursor: pointer;
-    flex-direction: column;
-    align-items: center;
-}
-#inicio .marcas .marca img {
-    width: 50px;
-    height: 50px;
-    border-radius: 9999;
-}
-#inicio .marcas .marca h4{
-    align-items: center;
-    font-size: 0.7em;
-    font-family: "Roboto", sans-serif;
-}
-#inicio .buttonLink {
-    font-family: "Montserrat", sans-serif;
-    letter-spacing: -2px;
-    font-weight: 400;
-    text-decoration: none;
     background-color: #000000;
-    color: white;
-    font-size: 1.1em;
-    margin-top: 10px;
-    margin-right: 20px;
-    padding: 0 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
 }
-#inicio .articulos {
+#Perfil .articulos {
     display: flex;
     width: 100%;
     flex-direction: column;
     align-items: center;
 }
-#inicio .articulos .buttonLink {
+#Perfil .articulos .buttonLink {
     align-self: flex-end;
 }
-#inicio .productos {
+#Perfil .productos {
     margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
@@ -86,15 +72,15 @@
     justify-content: flex-start;
     gap: 10px; /* Ajusta el espacio entre los elementos según tu preferencia */
 }
-#inicio .productos .producto {
+#Perfil .productos .producto {
     flex: 0 1 calc(33.33333333333% - 10px); /* Ajusta el ancho de cada producto */
     box-sizing: border-box;
     margin-bottom: 20px; /* Ajusta el espacio inferior según tu preferencia */
 }
-#inicio .productos .producto .productoImg {
+#Perfil .productos .producto .productoImg {
     position: relative;
 }
-#inicio .productos .producto .productoImg img{
+#Perfil .productos .producto .productoImg img{
     height: auto;
     width: 100%;
     border: 1px solid black;
@@ -103,7 +89,7 @@
     background-repeat: no-repeat;
     background-size:cover;
 }
-#inicio .productos .producto .productoImg h6 {
+#Perfil .productos .producto .productoImg h6 {
     position: absolute;
     bottom: 8px;
     left: 4px;
@@ -114,7 +100,7 @@
     text-align: center;
     font-family: "Roboto", sans-serif;
 }
-#inicio .productos .producto h3 {
+#Perfil .productos .producto h3 {
     text-align: center;
     font-family: "Roboto", sans-serif;
     font-size: 0.8em;

@@ -17,6 +17,8 @@
 }
 #Probar .video {
     width: 80%;
+
+    max-height: 60vh;
 }
 #Probar .imagenCross {
     width: 80%;

@@ -8,7 +8,7 @@ const Producto = ({idCreator,id,backgroundImageUrl,precio,titulo})=> {
     <div className='producto'  onClick={handlePrendaClick}>
         <div className='productoImg'>
             <img src={backgroundImageUrl} alt="" />
-            <h6>{precio}$</h6>
+            <h6>${precio}</h6>
         </div>
         <h3>{titulo}</h3>
     </div>

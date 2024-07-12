@@ -1,6 +1,7 @@
 import './Inicio.css';
 import { useState, useEffect, useRef } from 'react';
 import Producto from './Producto.jsx';
+import { useNavigate } from 'react-router-dom';
 import zara from "../../img/zara.png"
 import Nike from "../../img/nike.png"
 import Addidas from "../../img/addidas.png"
@@ -20,7 +21,10 @@ const Inicio = () => {
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
     const ref = useRef();
-
+    const navigateTo = useNavigate()
+    const IrAMarca = (link) => {
+        navigateTo(link);
+    }
     useEffect(() => {
         cargarPrendas();
         window.addEventListener('scroll', handleScroll);
@@ -54,27 +58,27 @@ const Inicio = () => {
             <div className='tituloMarcas'>
                 <h1>DressIt</h1>
                 <article className='marcas'>
-                <div className='marca'>
+                <div className='marca' onClick={()=>IrAMarca("../zara")}>
                     <img src={zara} alt="" />
                     <h4>Zara</h4>
                 </div>
-                <div className='marca'>
+                <div className='marca' onClick={()=>IrAMarca("../nike")}>
                     <img src={Nike} alt="" />
                     <h4>Nike</h4>
                 </div>
-                <div className='marca'>
+                <div className='marca' onClick={()=>IrAMarca("../addidas")}>
                     <img src={Addidas} alt="" />
                     <h4>Addidas</h4>
                 </div>
-                <div className='marca'>
+                <div className='marca' onClick={()=>IrAMarca("../puma")}>
                     <img src={Puma} alt="" />
                     <h4>Puma</h4>
                 </div>
-                <div className='marca'>
+                <div className='marca' onClick={()=>IrAMarca("../converse")}>
                     <img src={Converse} alt="" />
                     <h4>Converse</h4>
                 </div>
-                <div className='marca'>
+                <div className='marca' onClick={()=>IrAMarca("../vans")}>
                     <img src={Vans} alt="" />
                     <h4>Vans</h4>
                 </div>

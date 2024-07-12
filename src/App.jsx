@@ -9,8 +9,7 @@ import Search from './pages/Search/Search.jsx';
 import Prenda from './pages/Prenda/Prenda.jsx';
 import Probar from './pages/Probar/Probar.jsx';
 import Result from './pages/Result/Result.jsx';
-import Marca from './pages/Marca/Marca.jsx';
-
+import Perfil from './pages/Perfil/Perfil.jsx';
 function App() {
   return (
     <Router>
@@ -28,15 +27,14 @@ function Main() {
     <>
       <Routes>
         <Route path="/" element={<Start />} />
-        <Route path="/:idCreator/:id" element={<Prenda />} />
-        <Route path="/:idCreator/" element={<Marca />} />
+        <Route path="/:user/:id" element={<Prenda />} />
         <Route path="/probar/:img/:site" element={<Probar/>} />
         <Route path="/result/:img" element={<Result/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/prenda" element={<Prenda />} />
+        <Route path='/:user' element={<Perfil/>}></Route>
       </Routes>
       {!hideNavBar && <NavBar />}
     </>

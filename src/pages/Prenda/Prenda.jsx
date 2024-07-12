@@ -29,8 +29,8 @@ const Prenda = () => {
     }, [id]);
 
     const irALink = (url) => {
-        window.location.href = url;
-    }
+        window.open(url, '_blank');
+    };
 
     const irAProbar = (url) => {
         // Codificar la URL de la imagen antes de pasarla como parámetro
@@ -65,9 +65,8 @@ const Prenda = () => {
         <section id="Prenda">
             <h1 onClick={irAInicio}>DressIt</h1>
             <hr />
-            <img src={flecha} alt="" className='flecha' onClick={Volver} />
+            <div className='prenda' style={{ backgroundImage: `url(${prenda.imgPath})` }}></div>
             <h2>{prenda.name}</h2>
-            <img src={prenda.imgPath} alt="" className='prenda' />
             <h3>${prenda.price}</h3>
             <button className='celeste' onClick={() => irALink(prenda.link)}>Pagina del producto</button>
             <button className='negro' onClick={() => irAProbar(prenda.imgPath)}>Probar</button>
