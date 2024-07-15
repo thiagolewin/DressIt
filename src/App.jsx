@@ -10,10 +10,14 @@ import Prenda from './pages/Prenda/Prenda.jsx';
 import Probar from './pages/Probar/Probar.jsx';
 import Result from './pages/Result/Result.jsx';
 import Perfil from './pages/Perfil/Perfil.jsx';
+import { UserProvider } from './components/contexts/UserContext.jsx';
+
 function App() {
   return (
     <Router>
-      <Main />
+      <UserProvider>
+        <Main />
+      </UserProvider>
     </Router>
   );
 }
@@ -23,6 +27,7 @@ function Main() {
   const pathnameParts = location.pathname.split('/');
   const newPathname = pathnameParts.slice(0, 2).join('/');
   const hideNavBar = ['/', '/login', '/register', '/probar'].includes(newPathname);
+
   return (
     <>
       <Routes>
