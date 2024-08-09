@@ -17,7 +17,7 @@ const Perfil = () => {
         setLoading(true);
         
         try {
-            let prendasObtenidas = await fetch(`https://dressitnode-uq2eh73iia-uc.a.run.app/api/brand/${user}/${offset}`);
+            let prendasObtenidas = await fetch(`http://localhost:3000/api/users/getuser/2`);
             prendasObtenidas = await prendasObtenidas.json();
             setUserPosts(userPosts => [...userPosts, ...prendasObtenidas]);
             setOffset(offset + 20);  
@@ -32,7 +32,7 @@ const Perfil = () => {
         const fetchProfile = async () => {
             try {
                 setLoading(true);
-                let userResponse = await fetch(`https://dressitnode-uq2eh73iia-uc.a.run.app/api/brand/${user}`);
+                let userResponse = await fetch(`http://localhost:3000/api/users/getuser/2`);
                 let userData = await userResponse.json();
                 
                 if (userData.length === 0) {

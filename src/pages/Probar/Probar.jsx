@@ -85,7 +85,7 @@ const Probar = () => {
       formData.append('garment_url', img);
       setCargando(true);
       try {
-        const response = await fetch("https://dressitnode-uq2eh73iia-uc.a.run.app/api/image/post", {
+        const response = await fetch("http://localhost:3000/api/image/post", {
           method: "POST",
           body: formData
         });

@@ -5,7 +5,7 @@ const Start = ()=> {
     const navigateTo = useNavigate();
 
     const handleRedirectToLogin = () => {
-        navigateTo("/login");
+        navigateTo("/inicio");
     };
 
     return (

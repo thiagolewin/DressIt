@@ -11,7 +11,7 @@ const Prenda = () => {
 
     async function TraerPrenda(id) {
         try {
-            const response = await fetch(`https://dressitnode-uq2eh73iia-uc.a.run.app/api/wear/` + id);
+            const response = await fetch(`http://localhost:3000/api/wear/` + id+'/2');
             const data = await response.json();
             return data[0];
         } catch (error) {

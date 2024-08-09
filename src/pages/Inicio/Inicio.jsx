@@ -9,7 +9,7 @@ import Puma from "../../img/puma.png"
 import Converse from "../../img/converse.png"
 import Vans from "../../img/vans.png"
 async function TraerPrendas(offset, limit) {
-    let prendas = await fetch(`https://dressitnode-uq2eh73iia-uc.a.run.app/api/wear?offset=${offset}&limit=${limit}`);
+    let prendas = await fetch(`http://localhost:3000/api/wear?offset=${offset}&limit=${limit}`);
     prendas = await prendas.json();
     prendas = prendas.filter(element => !(element==null));
     console.log(prendas);
