@@ -10,6 +10,7 @@ import Prenda from './pages/Prenda/Prenda.jsx';
 import Probar from './pages/Probar/Probar.jsx';
 import Result from './pages/Result/Result.jsx';
 import Perfil from './pages/Perfil/Perfil.jsx';
+import RegisterUser from './pages/RegisterUser/RegisterUser.jsx';
 import { UserProvider } from './components/contexts/UserContext.jsx';
 
 function App() {
@@ -26,7 +27,7 @@ function Main() {
   const location = useLocation();
   const pathnameParts = location.pathname.split('/');
   const newPathname = pathnameParts.slice(0, 2).join('/');
-  const hideNavBar = ['/', '/login', '/register', '/probar'].includes(newPathname);
+  const hideNavBar = ['/', '/login', '/register', '/probar',"/RegisterUser"].includes(newPathname);
 
   return (
     <>
@@ -40,6 +41,7 @@ function Main() {
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/search" element={<Search />} />
         <Route path='/:user' element={<Perfil/>}></Route>
+        <Route path='/RegisterUser' element={<RegisterUser/>}></Route>
       </Routes>
       {!hideNavBar && <NavBar />}
     </>

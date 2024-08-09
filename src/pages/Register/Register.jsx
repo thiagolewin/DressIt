@@ -85,7 +85,7 @@ const Register = () => {
                     setUsusario(response[0]);
                     navigateTo("/inicio");
                 }
-            }
+            } 
         }
     };
 
@@ -106,12 +106,16 @@ const Register = () => {
             },
             body: JSON.stringify(user)
         });
-
         res = await res.json();
-        if (res.user) {
-            setUsusario(res.user);
-            navigateTo("/inicio");
+        if(res.message == "Ya hay un user con ese nombre Google") {
+            navigateTo("/RegisterUser",{state:{user}})
+        } else {
+            if (res.user) {
+                setUsusario(res.user);
+                navigateTo("/inicio");
+            }
         }
+
     };
 
     const onFailure = (response) => {
