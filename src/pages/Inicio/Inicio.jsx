@@ -13,7 +13,6 @@ async function TraerPrendas(offset, limit) {
     let prendas = await fetch(`http://localhost:3000/api/wear?offset=${offset}&limit=${limit}`);
     prendas = await prendas.json();
     prendas = prendas.filter(element => !(element==null));
-    console.log(prendas);
     return prendas;
 }
 
@@ -22,25 +21,27 @@ const Inicio = () => {
     const [prendas, setPrendas] = useState([]);
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
+    let load = false
     const ref = useRef();
     const navigateTo = useNavigate()
     const IrAMarca = (link) => {
         navigateTo(link);
     }
     useEffect(() => {
+        window.scrollTo(0, 0);
         cargarPrendas();
+        load = true
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
     useEffect(() => {
-        console.log(offset)
         if(offset <82) {
             window.addEventListener('scroll', handleScroll);    
         }
         return () => window.removeEventListener('scroll', handleScroll);
     }, [loading]);
     const handleScroll = () => {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight && load ==false) {
             cargarPrendas();
         }
     };
@@ -51,7 +52,6 @@ const Inicio = () => {
         const prendasObtenidas = await TraerPrendas(offset, 30);
         setPrendas(prevPrendas => [...prevPrendas, ...prendasObtenidas]);
         setOffset(offset + 30);  
-        console.log(loading)
         setLoading(false);
     };
 

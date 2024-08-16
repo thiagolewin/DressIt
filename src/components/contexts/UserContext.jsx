@@ -1,23 +1,30 @@
-import React, { createContext, useState, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 // Crea el contexto
 const UserContext = createContext();
 
 // Crea un proveedor para el contexto
 export const UserProvider = ({ children }) => {
-    const [user, setUsuario] = useState(null);
+    // Inicializa el estado con el valor del localStorage si está disponible
+    const [user, setUsuario] = useState(() => {
+        const savedUser = localStorage.getItem('user');
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
+
+    // Guarda el estado en localStorage cada vez que cambia
+    useEffect(() => {
+        if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+        } else {
+            localStorage.removeItem('user');
+        }
+    }, [user]);
 
     return (
         <UserContext.Provider value={{ user, setUsuario }}>
             {children}
         </UserContext.Provider>
     );
-};
-
-// Validación de las props del componente UserProvider
-UserProvider.propTypes = {
-    children: PropTypes.node.isRequired,
 };
 
 // Hook personalizado para usar el contexto de usuario

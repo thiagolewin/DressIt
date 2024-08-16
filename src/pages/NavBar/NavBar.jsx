@@ -15,7 +15,13 @@ const NavBar = ()=> {
     };
     const handleProfileClick = () => {
         console.log(user)
-        navigateTo("/username/" +user.username);
+        let nombre
+        if(user.username == null) {
+            nombre = user.name
+        } else {
+            nombre = user.username
+        }
+        navigateTo("/username/" +nombre);
     };
     return (<nav id="Nav">
         <div className="home" onClick={handleHomeClick}>

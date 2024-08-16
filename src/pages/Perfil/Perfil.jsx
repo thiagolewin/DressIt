@@ -29,7 +29,6 @@ const Perfil = () => {
             console.log(offset)
             let prendasObtenidas = await fetch(`http://localhost:3000/api/wear/brand/` + user.username + "/" + offset +"/" + 20);
             prendasObtenidas = await prendasObtenidas.json();
-            console.log(prendasObtenidas)
             setUserPosts(userPosts => [...userPosts, ...prendasObtenidas]);
             setOffset(offset + 20);  
         } catch (error) {
@@ -40,6 +39,7 @@ const Perfil = () => {
     };
 
     useEffect(() => {
+        setUserPosts([])
         const fetchProfile = async () => {
             try {
                 setLoading(true);
@@ -58,10 +58,10 @@ const Perfil = () => {
         };
         fetchProfile();
         cargarPrendas();
-
+        setOffset(offset + 20);  
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    }, [userParams]);
 
     useEffect(() => {
         if (offset < 82) {
@@ -78,6 +78,7 @@ const Perfil = () => {
 
     return (
         <section id='Perfil'>
+            {console.log(userInfo)}
             {userInfo !== undefined && userInfo !== null && (
                 <>
                     <img src={userInfo.pfp} alt={`${userInfo.name}'s profile`} className='profilePicture' />
