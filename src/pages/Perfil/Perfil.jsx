@@ -6,18 +6,30 @@ import flecha from '../../img/flecha.svg';
 import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 const Perfil = () => {
-    const { user } = useUser();
+    let {user} = useUser()
+    const UserContext = user
+    const userParams  = useParams();
+    user = {}
+    if (UserContext == null) {
+        user.username = userParams.user
+    }
+    else if(UserContext.username == userParams.user) {
+        user = UserContext
+    } else {
+        user.username = userParams.user
+    }
     const [userInfo, setUserInfo] = useState(null); // Inicializa como null para manejar mejor los estados
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [offset, setOffset] = useState(0);
-    console.log(user)
     const cargarPrendas = async () => {
         if (loading) return;
         setLoading(true);
         try {
-            let prendasObtenidas = await fetch(`http://localhost:3000/api/wear/brand/` + user.username);
+            console.log(offset)
+            let prendasObtenidas = await fetch(`http://localhost:3000/api/wear/brand/` + user.username + "/" + offset +"/" + 20);
             prendasObtenidas = await prendasObtenidas.json();
+            console.log(prendasObtenidas)
             setUserPosts(userPosts => [...userPosts, ...prendasObtenidas]);
             setOffset(offset + 20);  
         } catch (error) {
@@ -33,11 +45,10 @@ const Perfil = () => {
                 setLoading(true);
                 let userResponse = await fetch(`http://localhost:3000/api/users/getuser/` + user.username);
                 let userData = await userResponse.json();
-                
-                if (userData.length === 0) {
+                if (userData.username == null|| userData.username == undefined) {
                     setUserInfo(undefined); // Si no se encuentra usuario, establece como undefined
                 } else {
-                    setUserInfo(userData[0]);
+                    setUserInfo(userData);
                 }
             } catch (error) {
                 console.error('Error fetching profile:', error);
@@ -45,7 +56,6 @@ const Perfil = () => {
                 setLoading(false);
             }
         };
-
         fetchProfile();
         cargarPrendas();
 
@@ -90,7 +100,7 @@ const Perfil = () => {
                     <hr />
                     <article className='productos'>
                         {userPosts.map(element => (
-                            <Producto idCreator={element.idCreator} id={element.id} key={element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
+                            <Producto idCreator={element.idCreator} id={element.id} key={"profile-"+element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
                         ))}
                         {loading && (
                             <div className='width100'>

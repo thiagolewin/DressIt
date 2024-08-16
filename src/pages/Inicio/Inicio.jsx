@@ -19,7 +19,6 @@ async function TraerPrendas(offset, limit) {
 
 const Inicio = () => {
     const {user} = useUser()
-    console.log(user)
     const [prendas, setPrendas] = useState([]);
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -61,23 +60,23 @@ const Inicio = () => {
             <div className='tituloMarcas'>
                 <h1>DressIt</h1>
                 <article className='marcas'>
-                <div className='marca' onClick={()=>IrAMarca("../zara")}>
+                <div className='marca' onClick={()=>IrAMarca("../username/zara")}>
                     <img src={zara} alt="" />
                     <h4>Zara</h4>
                 </div>
-                <div className='marca' onClick={()=>IrAMarca("../nike")}>
+                <div className='marca' onClick={()=>IrAMarca("../username/nike")}>
                     <img src={Nike} alt="" />
                     <h4>Nike</h4>
                 </div>
-                <div className='marca' onClick={()=>IrAMarca("../addidas")}>
+                <div className='marca' onClick={()=>IrAMarca("../username/addidas")}>
                     <img src={Addidas} alt="" />
                     <h4>Addidas</h4>
                 </div>
-                <div className='marca' onClick={()=>IrAMarca("../puma")}>
+                <div className='marca' onClick={()=>IrAMarca("../username/puma")}>
                     <img src={Puma} alt="" />
                     <h4>Puma</h4>
                 </div>
-                <div className='marca' onClick={()=>IrAMarca("../converse")}>
+                <div className='marca' onClick={()=>IrAMarca("../username/converse")}>
                     <img src={Converse} alt="" />
                     <h4>Converse</h4>
                 </div>
@@ -92,7 +91,7 @@ const Inicio = () => {
                 <button className='buttonLink'>Filtros</button>
                 <article className='productos' ref={ref}>
                     {prendas.map(element => (
-                        <Producto idCreator = {element.idCreator} id={element.id}key={element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
+                        <Producto idCreator = {element.idCreator} id={element.id}key={"inicio-"+element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
                     ))}
                     {loading && <div className='width100'><div className="dot-wave">
     <div className="dot-wave__dot"></div>
