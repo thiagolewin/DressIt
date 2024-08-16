@@ -4,20 +4,19 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import flecha from '../../img/flecha.svg';
 import Producto from '../Inicio/Producto.jsx';
-
+import { useUser } from '../../components/contexts/UserContext.jsx';
 const Perfil = () => {
-    const { user } = useParams();
+    const { user } = useUser();
     const [userInfo, setUserInfo] = useState(null); // Inicializa como null para manejar mejor los estados
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [offset, setOffset] = useState(0);
-
+    console.log(user)
     const cargarPrendas = async () => {
         if (loading) return;
         setLoading(true);
-        
         try {
-            let prendasObtenidas = await fetch(`http://localhost:3000/api/users/getuser/2`);
+            let prendasObtenidas = await fetch(`http://localhost:3000/api/wear/brand/` + user.username);
             prendasObtenidas = await prendasObtenidas.json();
             setUserPosts(userPosts => [...userPosts, ...prendasObtenidas]);
             setOffset(offset + 20);  
@@ -32,7 +31,7 @@ const Perfil = () => {
         const fetchProfile = async () => {
             try {
                 setLoading(true);
-                let userResponse = await fetch(`http://localhost:3000/api/users/getuser/2`);
+                let userResponse = await fetch(`http://localhost:3000/api/users/getuser/` + user.username);
                 let userData = await userResponse.json();
                 
                 if (userData.length === 0) {

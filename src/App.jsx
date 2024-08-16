@@ -40,7 +40,7 @@ function Main() {
         <Route path="/register" element={<Register />} />
         <Route path="/inicio" element={<Inicio />} />
         <Route path="/search" element={<Search />} />
-        <Route path='/:user' element={<Perfil/>}></Route>
+        <Route path='/username/:user' element={<Perfil/>}></Route>
         <Route path='/RegisterUser' element={<RegisterUser/>}></Route>
       </Routes>
       {!hideNavBar && <NavBar />}

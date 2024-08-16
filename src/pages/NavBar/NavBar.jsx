@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import home from "../../img/home.svg"
 import search from "../../img/search.svg"
 import profile from "../../img/profile.svg"
+import { useUser } from '../../components/contexts/UserContext.jsx';
 const NavBar = ()=> {
+    const {user} = useUser()
     const navigateTo = useNavigate();
     const handleSearchClick = () => {
         navigateTo("/search");
@@ -12,7 +14,8 @@ const NavBar = ()=> {
         navigateTo("/inicio");
     };
     const handleProfileClick = () => {
-        navigateTo("/search");
+        console.log(user)
+        navigateTo("/username/" +user.username);
     };
     return (<nav id="Nav">
         <div className="home" onClick={handleHomeClick}>

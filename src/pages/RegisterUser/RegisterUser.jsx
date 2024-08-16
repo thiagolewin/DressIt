@@ -8,7 +8,7 @@ const RegisterUser = ()=> {
     const navigateTo = useNavigate();
   const data  = location.state.user;
   const {email,name,password,confirmPassword} = data
-  const { setUsusario } = useUser();
+  const { setUsuario } = useUser();
   const [errors, setErrors] = useState({});
   const [errorsView, setErrorsView] = useState("")
   const [newUsername, setNewUsername] = useState('');
@@ -59,7 +59,7 @@ const RegisterUser = ()=> {
             });
             res = await res.json();
             if (res.user) {
-                setUsusario(res.user);
+                setUsuario(res.user);
                 navigateTo("/inicio");
             } else {
                 setErrorsView(res.message)

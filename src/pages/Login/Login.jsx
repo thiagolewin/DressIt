@@ -9,7 +9,7 @@ import { useUser } from '../../components/contexts/UserContext.jsx';
 
 const Login = () => {
     const navigateTo = useNavigate();
-    const { setUsusario } = useUser(); // Asegúrate de usar el hook useUser
+    const { setUsuario } = useUser(); // Asegúrate de usar el hook useUser
     const clientId = "612029047571-54dp6o7o757atf598qjj7il1mt030nan.apps.googleusercontent.com";
     const [username, setUser] = useState('');
     const [password, setPassword] = useState('');
@@ -45,7 +45,7 @@ const Login = () => {
             navigateTo("/RegisterUser",{state:{user}})
         } else {
             if (res.user) {
-                setUsusario(res.user);
+                setUsuario(res.user);
                 navigateTo("/inicio");
             }
         }
@@ -72,7 +72,7 @@ const Login = () => {
 
         response = await response.json();
         if (response.length > 0) {
-            setUsusario(response[0]); // Usa setUsusario del contexto
+            setUsuario(response[0]); // Usa setUsusario del contexto
             navigateTo("/inicio");
         }
     };

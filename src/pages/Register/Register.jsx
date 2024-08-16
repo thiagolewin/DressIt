@@ -8,7 +8,7 @@ import { useUser } from '../../components/contexts/UserContext.jsx';
 
 const Register = () => {
     const navigateTo = useNavigate();
-    const { setUsusario } = useUser();
+    const { setUsuario } = useUser();
     const [email, setEmail] = useState('');
     const [username, setUser] = useState('');
     const [password, setPassword] = useState('');
@@ -82,7 +82,7 @@ const Register = () => {
                 });
                 response = await response.json();
                 if (response.length > 0) {
-                    setUsusario(response[0]);
+                    setUsuario(response[0]);
                     navigateTo("/inicio");
                 }
             } 
@@ -111,7 +111,7 @@ const Register = () => {
             navigateTo("/RegisterUser",{state:{user}})
         } else {
             if (res.user) {
-                setUsusario(res.user);
+                setUsuario(res.user);
                 navigateTo("/inicio");
             }
         }

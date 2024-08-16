@@ -8,6 +8,7 @@ import Addidas from "../../img/addidas.png"
 import Puma from "../../img/puma.png"
 import Converse from "../../img/converse.png"
 import Vans from "../../img/vans.png"
+import { useUser } from '../../components/contexts/UserContext.jsx';
 async function TraerPrendas(offset, limit) {
     let prendas = await fetch(`http://localhost:3000/api/wear?offset=${offset}&limit=${limit}`);
     prendas = await prendas.json();
@@ -17,6 +18,8 @@ async function TraerPrendas(offset, limit) {
 }
 
 const Inicio = () => {
+    const {user} = useUser()
+    console.log(user)
     const [prendas, setPrendas] = useState([]);
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
