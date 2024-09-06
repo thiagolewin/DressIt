@@ -13,10 +13,10 @@ const Search = () => {
 
     const Buscar = async (event) => {
         const value = event.target.value;
-        setOffset(0); // Reiniciar el offset cuando se realiza una nueva búsqueda
+        setOffset(9); // Reiniciar el offset a 9 para que la siguiente carga sea correcta
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:3000/api/wear/search/${value}/${userId}/5`);
+            const response = await fetch(`http://localhost:3000/api/wear/search/${value}/0/9`); // Iniciar con 9 resultados
             const data = await response.json();
             
             console.log("Respuesta de la búsqueda:", data);
@@ -36,11 +36,10 @@ const Search = () => {
         setLoading(true);
         const value = document.querySelector('.searchBar input').value;
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/search/${value}/${offset}/5`);
+            const response = await fetch(`http://localhost:3000/api/wear/search/${value}/${offset}/6`); // Cargar 6 más con el offset actual
             const data = await response.json();
 
             if (data && Array.isArray(data.prendas)) {
-                // Filtrar las prendas que ya están en la lista
                 const nuevasPrendas = data.prendas.filter(prenda => 
                     !busqueda.prendas.some(existingPrenda => existingPrenda.id === prenda.id)
                 );
@@ -49,7 +48,7 @@ const Search = () => {
                     ...prev,
                     prendas: [...prev.prendas, ...nuevasPrendas]
                 }));
-                setOffset(prev => prev + 5);
+                setOffset(prev => prev + 6); // Incrementar el offset en 6
             }
         } catch (error) {
             console.error('Error cargando más prendas:', error);
@@ -57,16 +56,17 @@ const Search = () => {
             setLoading(false);
         }
     };
+   
+    const handleScroll = () => {
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+            cargarMasPrendas();
+        }
+    };
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight) {
-                cargarMasPrendas();
-            }
-        };
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [offset, loading]);
+    }, [offset, loading]); // Incluir offset y loading en el hook para que se actualice correctamente
 
     return (
         <section id="Search">
@@ -75,7 +75,6 @@ const Search = () => {
                 <h4>Cancelar</h4>
             </div>
             
-            {/* Sección Marcas */}
             <div className='marcas'>
                 <h2>Marcas</h2>
                 <div className="marcaContainer">
@@ -87,7 +86,6 @@ const Search = () => {
                 </div>
             </div>
             
-            {/* Sección Prendas */}
             <div className='prendas'>
                 <h2>Prendas</h2>
                 <div className="productos">
@@ -97,12 +95,16 @@ const Search = () => {
                 </div>
             </div>
 
-            {loading && <div className='width100'><div className="dot-wave">
-                <div className="dot-wave__dot"></div>
-                <div className="dot-wave__dot"></div>
-                <div className="dot-wave__dot"></div>
-                <div className="dot-wave__dot"></div>
-            </div></div>}
+            {loading && (
+                <div className='width100'>
+                    <div className="dot-wave">
+                        <div className="dot-wave__dot"></div>
+                        <div className="dot-wave__dot"></div>
+                        <div className="dot-wave__dot"></div>
+                        <div className="dot-wave__dot"></div>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
