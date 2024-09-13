@@ -9,15 +9,17 @@ import Puma from "../../img/puma.png"
 import Converse from "../../img/converse.png"
 import Vans from "../../img/vans.png"
 import { useUser } from '../../components/contexts/UserContext.jsx';
-async function TraerPrendas(offset, limit) {
-    let prendas = await fetch(`http://localhost:3000/api/wear?offset=${offset}&limit=${limit}`);
+async function TraerPrendas(offset, limit, user) {
+    const userId = user ? user.id : 2;
+    let prendas = await fetch(`http://localhost:3000/api/wear/random/${userId}`);
     prendas = await prendas.json();
     prendas = prendas.filter(element => !(element==null));
     return prendas;
 }
 
 const Inicio = () => {
-    const {user} = useUser()
+    const { user } = useUser();  
+    const userId = user ? user.id : 2;
     const [prendas, setPrendas] = useState([]);
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -49,7 +51,7 @@ const Inicio = () => {
     const cargarPrendas = async () => {
         if (loading ) return;
         setLoading(true);
-        const prendasObtenidas = await TraerPrendas(offset, 30);
+        const prendasObtenidas = await TraerPrendas(user);
         setPrendas(prevPrendas => [...prevPrendas, ...prendasObtenidas]);
         setOffset(offset + 30);  
         setLoading(false);

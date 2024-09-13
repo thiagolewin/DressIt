@@ -9,21 +9,22 @@ const Search = () => {
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState(''); 
     const { user } = useUser();  
-
-    const userId = user ? user.id : 2; // Usa el id del usuario o un valor por defecto (2)
+    const userId = user ? user.id : 2;
 
     const Buscar = async (event) => {
         const newValue = event.target.value;
         setValue(newValue); 
+        console.log(newValue,userId)
         setOffset(9); 
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:3000/api/wear/search/${newValue}/${userId}/9`); // Buscar las primeras 9 prendas
+            const response = await fetch(`http://localhost:3000/api/wear/search/${newValue}/${userId}/9`); 
             const data = await response.json();
             
             console.log("Respuesta de la búsqueda:", data);
             if (data && data.prendas && data.marcas) {
                 setBusqueda({ prendas: data.prendas, marcas: data.marcas });
+                console.log("Estado actualizado:", { prendas: data.prendas, marcas: data.marcas });
             } else {
                 console.error('Error: Datos recibidos no tienen el formato esperado.');
             }
@@ -38,26 +39,19 @@ const Search = () => {
         if (loading || !value) return; 
         setLoading(true);
         try {
-            console.log(`Cargando más prendas con offset: ${offset}`);
-            const response = await fetch(`http://localhost:3000/api/wear/search/${value}/${offset}/6`); // Cargar 6 más
+            const response = await fetch(`http://localhost:3000/api/wear/${value}/${offset}/6`);
             const data = await response.json();
+            console.log(data)
+            if (data && Array.isArray(data)) {
+                const filteredNewArray = data.filter(newItem =>
+                    !busqueda.prendas.some(originalItem => originalItem.id === newItem.id)
+                  );
+                console.log(filteredNewArray)
 
-            console.log('Datos recibidos:', data);
-
-            if (data && Array.isArray(data.prendas)) {
-                console.log('Prendas actuales en estado:', busqueda.prendas); 
-                console.log('Nuevas prendas recibidas:', data.prendas);
-
-                const nuevasPrendas = data.prendas.filter(prenda => 
-                    !busqueda.prendas.some(existingPrenda => existingPrenda.id === prenda.id)
-                );
-
-                console.log('Nuevas prendas después del filtro:', nuevasPrendas);
-
-                if (nuevasPrendas.length > 0) {
+                if (filteredNewArray.length > 0) {
                     setBusqueda(prev => ({
                         ...prev,
-                        prendas: [...prev.prendas, ...nuevasPrendas]
+                        prendas: [...prev.prendas, ...filteredNewArray]
                     }));
                     setOffset(prev => prev + 6); 
                 } else {
@@ -73,7 +67,6 @@ const Search = () => {
         }
     };
 
-
     const handleScroll = () => {
         if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200) {
             cargarMasPrendas(); 
@@ -83,7 +76,7 @@ const Search = () => {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [offset, value, loading]); 
+    }, [offset, value, loading]);
 
     return (
         <section id="Search">
@@ -100,7 +93,7 @@ const Search = () => {
                 <h2>Marcas</h2>
                 <div className="marcaContainer">
                     {busqueda.marcas.slice(0, 5).map((marca, index) => (
-                        <div key={index} className='marca'>
+                        <div key={marca.id || index} className='marca'>
                             <h4>{marca.nombre}</h4>
                         </div>
                     ))}
