@@ -3,15 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; 
 import flecha from '../../img/flecha.svg'
+import { useUser } from '../../components/contexts/UserContext.jsx';
 
 const Prenda = () => {
     const navigateTo = useNavigate();
     const [prenda, setPrenda] = useState(null);
     const { id } = useParams();
+    const { user } = useUser();  
+    const userId = user ? user.id : 2;
 
-    async function TraerPrenda(id) {
+    async function TraerPrenda(id,iduser) {
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/` + id+'/2');
+            const response = await fetch(`http://localhost:3000/api/wear/${id}/${iduser}`);
             const data = await response.json();
             return data[0];
         } catch (error) {
@@ -22,7 +25,7 @@ const Prenda = () => {
 
     useEffect(() => {
         async function cargarPrenda() {
-            const data = await TraerPrenda(id);
+            const data = await TraerPrenda(id,userId);
             setPrenda(data);
         }
         cargarPrenda();
