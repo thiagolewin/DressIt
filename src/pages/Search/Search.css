@@ -36,7 +36,6 @@
     margin-left: 10px;
 }
 
-/* Sección Marcas */
 #Search .marcas {
     width: 90%;
     margin-bottom: 20px;
@@ -52,7 +51,7 @@
 
 #Search .marcaContainer {
     display: flex;
-    overflow-x: auto; /* Scroll horizontal */
+    overflow-x: auto; 
     gap: 10px;
 }
 
@@ -71,7 +70,6 @@
     font-weight: 600;
 }
 
-/* Sección Prendas */
 #Search .prendas {
     width: 90%;
 }
@@ -88,24 +86,24 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    gap: 10px; /* Espacio entre las tarjetas */
-    justify-content: flex-start; /* Alineación de las tarjetas */
+    gap: 10px; 
+    justify-content: flex-start; 
 }
 
 #Search .producto {
-    flex: 0 1 calc(33.333% - 10px); /* Tamaño de las tarjetas */
+    flex: 0 1 calc(50% - 10px); 
     box-sizing: border-box;
     margin-bottom: 20px;
     background-color: #fff;
-    border: 1px solid black; /* Bordes sólidos */
+    border: 1px solid black; 
     border-radius: 10px;
-    overflow: hidden; /* Evitar que las imágenes se desborden */
+    overflow: hidden; 
     text-align: center;
     transition: transform 0.2s ease;
 }
 
 #Search .producto:hover {
-    transform: scale(1.05); /* Efecto hover */
+    transform: scale(1.05); 
 }
 
 #Search .producto .productoImg {
@@ -113,9 +111,9 @@
 }
 
 #Search .producto .productoImg img {
-    width: 100%; /* Imagen ajustada al ancho de la tarjeta */
+    width: 100%;
     height: auto;
-    border-bottom: 1px solid black; /* Borde inferior */
+    border-bottom: 1px solid black; 
     background-position: center;
     background-size: cover;
 }
@@ -125,7 +123,7 @@
     bottom: 8px;
     left: 4px;
     padding: 2px 10px;
-    font-size: 0.7em;
+    font-size: 1em; 
     font-weight: 900;
     background-color: #EDE8D0;
     text-align: center;
@@ -137,25 +135,12 @@
     margin: 10px 0;
 }
 
-#Search .producto p {
-    font-size: 0.85em;
-    font-family: "Montserrat", sans-serif;
-    color: #666;
-}
-
-/* Media query para pantallas más pequeñas */
 @media (max-width: 400px) {
-    #Search .searchBar input {
-        width: 65%;
-    }
-
     #Search .producto {
-        width: 130px;
-        height: 180px;
+        flex: 0 1 calc(50% - 5px); 
     }
 
-    #Search .producto img {
-        width: 90px;
-        height: 90px;
+    #Search .producto .productoImg h6 {
+        font-size: 1.2em; 
     }
 }

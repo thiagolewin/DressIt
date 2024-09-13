@@ -18,7 +18,7 @@ const Search = () => {
         setOffset(9); 
         try {
             setLoading(true);
-            const response = await fetch(`http://localhost:3000/api/wear/search/${newValue}/${userId}/9`); 
+            const response = await fetch(`http://localhost:3000/api/wear/search/${newValue}/${userId}/6`); 
             const data = await response.json();
             
             console.log("Respuesta de la búsqueda:", data);
@@ -39,7 +39,7 @@ const Search = () => {
         if (loading || !value) return; 
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/${value}/${offset}/6`);
+            const response = await fetch(`http://localhost:3000/api/wear/${value}/${offset}/4`);
             const data = await response.json();
             console.log(data)
             if (data && Array.isArray(data)) {
