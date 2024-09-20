@@ -9,6 +9,8 @@ import Puma from "../../img/puma.png"
 import Converse from "../../img/converse.png"
 import Vans from "../../img/vans.png"
 import { useUser } from '../../components/contexts/UserContext.jsx';
+import FilterModal from '../../components/contexts/FilterModal.jsx';
+
 async function TraerPrendas(offset, limit, user) {
     const userId = user ? user.id : 2;
     let prendas = await fetch(`http://localhost:3000/api/wear/random/${userId}`);
@@ -23,6 +25,8 @@ const Inicio = () => {
     const [prendas, setPrendas] = useState([]);
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [showFilterModal, setShowFilterModal] = useState(false);
+
     let load = false
     const ref = useRef();
     const navigateTo = useNavigate()
@@ -90,19 +94,24 @@ const Inicio = () => {
                 <hr />
             </div>
             <div className='articulos'>
-                <button className='buttonLink'>Filtros</button>
+                <button className='buttonLink' onClick={() => setShowFilterModal(true)}>Filtros</button>
                 <article className='productos' ref={ref}>
                     {prendas.map(element => (
                         <Producto idCreator = {element.idCreator} id={element.id}key={"inicio-"+element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
                     ))}
-                    {loading && <div className='width100'><div className="dot-wave">
-    <div className="dot-wave__dot"></div>
-    <div className="dot-wave__dot"></div>
-    <div className="dot-wave__dot"></div>
-    <div className="dot-wave__dot"></div>
-</div></div>}
+                    {loading && 
+                        <div className='width100'>
+                            <div className="dot-wave">
+                                <div className="dot-wave__dot"></div>
+                                <div className="dot-wave__dot"></div>
+                                <div className="dot-wave__dot"></div>
+                                <div className="dot-wave__dot"></div>
+                            </div>
+                        </div>
+                    }
                 </article>
             </div>
+            {showFilterModal && <FilterModal onClose={() => setShowFilterModal(false)} />}
         </section>
     );
 };

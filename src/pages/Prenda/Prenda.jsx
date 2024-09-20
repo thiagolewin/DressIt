@@ -14,7 +14,7 @@ const Prenda = () => {
 
     async function TraerPrenda(id,iduser) {
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/${id}/${iduser}`);
+            const response = await fetch(`http://localhost:3000/api/wear/${id}/1`);
             const data = await response.json();
             return data[0];
         } catch (error) {
