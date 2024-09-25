@@ -1,0 +1,169 @@
+/* Estilos base para el cuerpo */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+/* Tipografías Roboto */
+.roboto-thin {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+}
+  
+.roboto-light {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+}
+  
+.roboto-regular {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+}
+  
+.roboto-medium {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
+  
+.roboto-bold {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+}
+  
+.roboto-black {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+}
+
+/* Variantes itálicas de Roboto */
+.roboto-thin-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-style: italic;
+}
+
+.roboto-light-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 300;
+    font-style: italic;
+}
+
+.roboto-regular-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+}
+
+.roboto-medium-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.roboto-bold-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    font-style: italic;
+}
+
+.roboto-black-italic {
+    font-family: "Roboto", sans-serif;
+    font-weight: 900;
+    font-style: italic;
+}
+
+/* Contenedor de los filtros */
+.filter-container {
+    width: 250px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado con el botón de cierre */
+.header-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    font-size: 32px;
+    cursor: pointer;
+    margin-right: 20px; 
+}
+
+/* Texto de filtro */
+.filter-by-text {
+    flex-grow: 1;
+}
+
+.filter-by-text span {
+    display: block;
+    font-weight: bold;
+}
+
+/* Opción de limpiar filtros */
+.clear-filters {
+    color: blue;
+    text-decoration: none;
+    cursor: pointer;
+    display: block; 
+    margin-bottom: 20px; 
+}
+
+/* Sección de cada filtro */
+.filter-section {
+    margin-bottom: 20px;
+}
+
+/* Título del filtro */
+.filter-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Flecha para los desplegables */
+.arrow {
+    font-size: 12px;
+    transition: transform 0.3s;
+}
+
+/* Opciones del filtro */
+.filter-options {
+    padding-left: 10px;
+}
+
+.filter-options label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Input de número */
+.filter-options input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    .filter-container {
+        width: 100%;
+        box-shadow: none;
+        border: none;
+    }
+}
