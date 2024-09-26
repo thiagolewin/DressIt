@@ -1,162 +1,65 @@
-body {
-    font-family: 'Roboto', sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f5f5f5;
-}
-/* Roboto */
-.roboto-thin {
-    font-family: "Roboto", sans-serif;
-    font-weight: 100;
-    font-style: normal;
-  }
-  
-  .roboto-light {
-    font-family: "Roboto", sans-serif;
-    font-weight: 300;
-    font-style: normal;
-  }
-  
-  .roboto-regular {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  .roboto-medium {
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-style: normal;
-  }
-  
-  .roboto-bold {
-    font-family: "Roboto", sans-serif;
-    font-weight: 700;
-    font-style: normal;
-  }
-  
-  .roboto-black {
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: normal;
-  }
-  
-  .roboto-thin-italic {
-    font-family: "Roboto", sans-serif;
-    font-weight: 100;
-    font-style: italic;
-  }
-  
-  .roboto-light-italic {
-    font-family: "Roboto", sans-serif;
-    font-weight: 300;
-    font-style: italic;
-  }
-  
-  .roboto-regular-italic {
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: italic;
-  }
-  
-  .roboto-medium-italic {
-    font-family: "Roboto", sans-serif;
-    font-weight: 500;
-    font-style: italic;
-  }
-  
-  .roboto-bold-italic {
-    font-family: "Roboto", sans-serif;
-    font-weight: 700;
-    font-style: italic;
-  }
-  
-  .roboto-black-italic {
-    font-family: "Roboto", sans-serif;
-    font-weight: 900;
-    font-style: italic;
-  }
-/* Fin Roboto */  
 .filter-container {
-    width: 250px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  right: -40%; /* Comienza fuera de la pantalla */
+  width: 40%; /* Ocupa el 40% de la pantalla */
+  height: 100%;
+  background-color: white;
+  border-left: 1px solid #ccc;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+  transition: right 0.3s ease; /* Animación de deslizamiento */
+  z-index: 1000;
+}
+
+.filter-container.show {
+  right: 0; /* Se desliza a la vista */
 }
 
 .header-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ccc;
 }
 
 .close-btn {
-    font-size: 32px;
-    cursor: pointer;
-    margin-right: 20px; 
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .filter-by-text {
-    flex-grow: 1;
-}
-
-.filter-by-text span {
-    display: block;
-    font-weight: bold;
-}
-
-.clear-filters {
-    color: blue;
-    text-decoration: none;
-    cursor: pointer;
-    display: block; 
-    margin-bottom: 20px; 
+  font-weight: bold;
 }
 
 .filter-section {
-    margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
 }
 
 .filter-title {
-    font-weight: bold;
-    margin-bottom: 10px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.arrow {
-    font-size: 12px;
-    transition: transform 0.3s;
+  font-weight: bold;
+  cursor: pointer;
 }
 
 .filter-options {
-    padding-left: 10px;
+  margin-top: 5px;
 }
 
-.filter-options label {
-    display: block;
-    margin-bottom: 5px;
+.error {
+  color: red;
+  margin: 10px 0;
 }
 
-.filter-options input[type="number"] {
-    width: calc(100% - 20px);
-    padding: 5px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-@media (max-width: 768px) {
-    .filter-container {
-        width: 100%;
-        box-shadow: none;
-        border: none;
-    }
+button:hover {
+  background-color: #0056b3;
 }
