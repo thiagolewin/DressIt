@@ -62,12 +62,20 @@
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#Search .marca:hover {
+    transform: scale(1.05);
 }
 
 #Search .marca h4 {
     font-family: "Montserrat", sans-serif;
     font-size: 0.9em;
     font-weight: 600;
+    margin: 0;
 }
 
 #Search .prendas {

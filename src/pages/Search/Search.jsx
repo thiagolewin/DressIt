@@ -2,32 +2,42 @@ import './Search.css';
 import { useState, useEffect } from 'react';
 import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
+import { useNavigate } from 'react-router-dom';
+
+const API_BASE_URL = 'http://localhost:3000/api/wear';
+const INITIAL_OFFSET = 9;
 
 const Search = () => {
     const [busqueda, setBusqueda] = useState({ prendas: [], marcas: [] });
-    const [offset, setOffset] = useState(0); 
+    const [offset, setOffset] = useState(INITIAL_OFFSET);
     const [loading, setLoading] = useState(false);
-    const [value, setValue] = useState(''); 
-    const { user } = useUser();  
+    const [value, setValue] = useState('');
+    const { user } = useUser();
     const userId = user ? user.id : 2;
+    const navigateTo = useNavigate();
 
-    const Buscar = async (event) => {
-        const newValue = event.target.value;
-        setValue(newValue); 
-        console.log(newValue,userId)
-        setOffset(9); 
+    // Función para buscar marcas y prendas
+    const buscarMarcasYPrendas = async () => {
+        if (value.trim() === '') {
+            setBusqueda({ prendas: [], marcas: [] }); // Reiniciar la búsqueda si el valor es vacío
+            return;
+        }
+
+        setLoading(true);
         try {
-            setLoading(true);
-            const response = await fetch(`http://localhost:3000/api/wear/search/${newValue}/${userId}/6`); 
+            const response = await fetch(`${API_BASE_URL}/search/${value}/${userId}/6`);
             const data = await response.json();
-            
-            console.log("Respuesta de la búsqueda:", data);
-            if (data && data.prendas && data.marcas) {
-                setBusqueda({ prendas: data.prendas, marcas: data.marcas });
-                console.log("Estado actualizado:", { prendas: data.prendas, marcas: data.marcas });
-            } else {
-                console.error('Error: Datos recibidos no tienen el formato esperado.');
-            }
+
+            console.log("Respuesta de la búsqueda:", data); // Verificar la estructura de data
+
+            // Validación y actualización de estado
+            const prendas = data.prendas || [];
+            const marcas = data.marcas || [];
+
+            // Actualizamos el estado de busqueda
+            setBusqueda({ prendas, marcas });
+            console.log("Estado actualizado:", { prendas, marcas }); // Confirmar que el estado se actualiza correctamente
+
         } catch (error) {
             console.error('Error en la búsqueda:', error);
         } finally {
@@ -35,25 +45,33 @@ const Search = () => {
         }
     };
 
+    // useEffect para manejar la búsqueda al cambiar el valor de 'value'
+    useEffect(() => {
+        buscarMarcasYPrendas();
+    }, [value, userId]); // Ejecutar el efecto cuando 'value' o 'userId' cambien
+
+    // Carga adicional de prendas cuando el usuario llega al final de la página
     const cargarMasPrendas = async () => {
-        if (loading || !value) return; 
+        if (loading || !value) return;
         setLoading(true);
+
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/${value}/${offset}/4`);
+            const response = await fetch(`${API_BASE_URL}/search/${value}/${userId}/${offset}/4`);
             const data = await response.json();
-            console.log(data)
-            if (data && Array.isArray(data)) {
+
+            console.log("Respuesta de carga adicional de prendas:", data); // Verificar la respuesta de carga adicional
+
+            if (Array.isArray(data)) {
                 const filteredNewArray = data.filter(newItem =>
                     !busqueda.prendas.some(originalItem => originalItem.id === newItem.id)
-                  );
-                console.log(filteredNewArray)
+                );
 
                 if (filteredNewArray.length > 0) {
                     setBusqueda(prev => ({
                         ...prev,
                         prendas: [...prev.prendas, ...filteredNewArray]
                     }));
-                    setOffset(prev => prev + 6); 
+                    setOffset(prev => prev + 6);
                 } else {
                     console.log("No se encontraron nuevas prendas después del filtro.");
                 }
@@ -67,16 +85,22 @@ const Search = () => {
         }
     };
 
+    // Función para navegar al perfil de la marca seleccionada
+    const IrAMarca = (username) => {
+        navigateTo(`../username/${username}`);
+    };
+
+    // Configuración para cargar más prendas cuando se hace scroll al final de la página
     const handleScroll = () => {
         if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200) {
-            cargarMasPrendas(); 
+            cargarMasPrendas();
         }
     };
 
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [offset, value, loading]);
+    }, [loading, value]);
 
     return (
         <section id="Search">
@@ -84,7 +108,7 @@ const Search = () => {
                 <input 
                     type="search" 
                     placeholder='Buscar' 
-                    onInput={Buscar} 
+                    onChange={(event) => setValue(event.target.value)} // Cambia el valor de 'value' directamente
                 />
                 <h4>Cancelar</h4>
             </div>
@@ -92,11 +116,19 @@ const Search = () => {
             <div className='marcas'>
                 <h2>Marcas</h2>
                 <div className="marcaContainer">
-                    {busqueda.marcas.slice(0, 5).map((marca, index) => (
-                        <div key={marca.id || index} className='marca'>
-                            <h4>{marca.nombre}</h4>
-                        </div>
-                    ))}
+                    {busqueda.marcas.length > 0 ? ( 
+                        busqueda.marcas.slice(0, 5).map((Users) => ( 
+                            <button 
+                                key={`marca-${Users.id}`}  // Uso de key único
+                                className='marca' 
+                                onClick={() => IrAMarca(Users.username)}
+                            >
+                                <h4>{Users.username}</h4> 
+                            </button>
+                        ))
+                    ) : (
+                        <p>No hay marcas disponibles.</p> 
+                    )}
                 </div>
             </div>
             
