@@ -1,6 +1,7 @@
 import './Search.css';
 import { useState, useEffect } from 'react';
 import Producto from '../Inicio/Producto.jsx';
+import Marca from '../Inicio/Marca.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,13 +14,17 @@ const Search = () => {
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState('');
     const { user } = useUser();
-    const userId = user ? user.id : 2;
-    const navigateTo = useNavigate();
+    const navigate = useNavigate(); 
 
-    // Función para buscar marcas y prendas
+    const userId = user?.id ?? 2; // Usa el ID del usuario, o un valor por defecto (2)
+
+    console.log("user:", user);
+    console.log("userId:", userId);
+
     const buscarMarcasYPrendas = async () => {
+
         if (value.trim() === '') {
-            setBusqueda({ prendas: [], marcas: [] }); // Reiniciar la búsqueda si el valor es vacío
+            setBusqueda({ prendas: [], marcas: [] });
             return;
         }
 
@@ -28,38 +33,38 @@ const Search = () => {
             const response = await fetch(`${API_BASE_URL}/search/${value}/${userId}/6`);
             const data = await response.json();
 
-            console.log("Respuesta de la búsqueda:", data); // Verificar la estructura de data
-
-            // Validación y actualización de estado
             const prendas = data.prendas || [];
             const marcas = data.marcas || [];
 
-            // Actualizamos el estado de busqueda
             setBusqueda({ prendas, marcas });
-            console.log("Estado actualizado:", { prendas, marcas }); // Confirmar que el estado se actualiza correctamente
-
         } catch (error) {
-            console.error('Error en la búsqueda:', error);
+            console.error("Error en la búsqueda:", error);
         } finally {
             setLoading(false);
         }
     };
 
-    // useEffect para manejar la búsqueda al cambiar el valor de 'value'
     useEffect(() => {
-        buscarMarcasYPrendas();
-    }, [value, userId]); // Ejecutar el efecto cuando 'value' o 'userId' cambien
+        console.log("user:", user);
+        console.log("userId:", userId);
 
-    // Carga adicional de prendas cuando el usuario llega al final de la página
+        if (user) {
+            buscarMarcasYPrendas();
+        }
+    }, [value, user]); 
+
     const cargarMasPrendas = async () => {
-        if (loading || !value) return;
+        
+        if (loading || !value) {
+            return;
+        }
+
         setLoading(true);
 
         try {
+            console.log("Paso 12: Ejecutando fetch para cargar más prendas.");
             const response = await fetch(`${API_BASE_URL}/search/${value}/${userId}/${offset}/4`);
             const data = await response.json();
-
-            console.log("Respuesta de carga adicional de prendas:", data); // Verificar la respuesta de carga adicional
 
             if (Array.isArray(data)) {
                 const filteredNewArray = data.filter(newItem =>
@@ -67,32 +72,30 @@ const Search = () => {
                 );
 
                 if (filteredNewArray.length > 0) {
+                    console.log("Paso 13: Nuevas prendas obtenidas:", filteredNewArray);
                     setBusqueda(prev => ({
                         ...prev,
                         prendas: [...prev.prendas, ...filteredNewArray]
                     }));
                     setOffset(prev => prev + 6);
-                } else {
-                    console.log("No se encontraron nuevas prendas después del filtro.");
                 }
-            } else {
-                console.error('Error: El formato de los datos no es correcto o no hay más prendas.');
             }
         } catch (error) {
-            console.error('Error cargando más prendas:', error);
+            console.error("Error cargando más prendas:", error);
         } finally {
             setLoading(false);
+            console.log("Paso 14: Carga de más prendas completada. Estado de carga:", loading);
         }
     };
 
-    // Función para navegar al perfil de la marca seleccionada
     const IrAMarca = (username) => {
-        navigateTo(`../username/${username}`);
+        console.log("Paso 15: Navegando a la marca:", username);
+        navigate(`../username/${username}`);
     };
 
-    // Configuración para cargar más prendas cuando se hace scroll al final de la página
     const handleScroll = () => {
         if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200) {
+            console.log("Paso 16: Usuario llegó al final de la página, cargando más prendas.");
             cargarMasPrendas();
         }
     };
@@ -100,7 +103,7 @@ const Search = () => {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [loading, value]);
+    }, [loading]);
 
     return (
         <section id="Search">
@@ -108,7 +111,10 @@ const Search = () => {
                 <input 
                     type="search" 
                     placeholder='Buscar' 
-                    onChange={(event) => setValue(event.target.value)} // Cambia el valor de 'value' directamente
+                    onChange={(event) => {
+                        console.log("Paso 17: Actualización del valor de búsqueda:", event.target.value);
+                        setValue(event.target.value);
+                    }}
                 />
                 <h4>Cancelar</h4>
             </div>
@@ -116,22 +122,21 @@ const Search = () => {
             <div className='marcas'>
                 <h2>Marcas</h2>
                 <div className="marcaContainer">
-                    {busqueda.marcas.length > 0 ? ( 
-                        busqueda.marcas.slice(0, 5).map((Users) => ( 
-                            <button 
-                                key={`marca-${Users.id}`}  // Uso de key único
-                                className='marca' 
-                                onClick={() => IrAMarca(Users.username)}
-                            >
-                                <h4>{Users.username}</h4> 
-                            </button>
+                    {busqueda.marcas.length > 0 ? (
+                        busqueda.marcas.slice(0, 5).map((marca) => (
+                            <Marca 
+                                key={`marca-${marca.id}`} 
+                                idMarca={marca.id} 
+                                username={marca.username} 
+                                onClick={() => IrAMarca(marca.username)}
+                            />
                         ))
                     ) : (
-                        <p>No hay marcas disponibles.</p> 
+                        <p>No hay marcas disponibles.</p>
                     )}
                 </div>
             </div>
-            
+
             <div className='prendas'>
                 <h2>Prendas</h2>
                 <div className="productos">
@@ -160,6 +165,6 @@ const Search = () => {
             )}
         </section>
     );
-}
+};
 
 export default Search;
