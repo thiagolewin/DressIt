@@ -16,13 +16,12 @@ const Search = () => {
     const { user } = useUser();
     const navigate = useNavigate(); 
 
-    const userId = user?.id ?? 2; // Usa el ID del usuario, o un valor por defecto (2)
+    const userId = user?.id ?? 3; // Asegúrate de tener un valor válido para el userId
 
     console.log("user:", user);
     console.log("userId:", userId);
 
     const buscarMarcasYPrendas = async () => {
-
         if (value.trim() === '') {
             setBusqueda({ prendas: [], marcas: [] });
             return;
@@ -36,7 +35,11 @@ const Search = () => {
             const prendas = data.prendas || [];
             const marcas = data.marcas || [];
 
-            setBusqueda({ prendas, marcas });
+            // Actualizamos el estado sin sobrescribir lo que ya tenemos
+            setBusqueda(prev => ({
+                prendas: prendas.length > 0 ? prendas : prev.prendas,
+                marcas: marcas.length > 0 ? marcas : prev.marcas
+            }));
         } catch (error) {
             console.error("Error en la búsqueda:", error);
         } finally {
@@ -45,16 +48,12 @@ const Search = () => {
     };
 
     useEffect(() => {
-        console.log("user:", user);
-        console.log("userId:", userId);
-
-        if (user) {
+        if (user && value.trim() !== '') {  // Asegura que haya un usuario y que el valor no esté vacío
             buscarMarcasYPrendas();
         }
-    }, [value, user]); 
+    }, [value]);
 
     const cargarMasPrendas = async () => {
-        
         if (loading || !value) {
             return;
         }
