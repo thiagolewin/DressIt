@@ -62,7 +62,6 @@ const Search = () => {
         setLoading(true);
 
         try {
-            console.log("Paso 12: Ejecutando fetch para cargar más prendas.");
             const response = await fetch(`${API_BASE_URL}/search/${value}/${userId}/${offset}/4`);
             const data = await response.json();
 
