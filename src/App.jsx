@@ -18,7 +18,6 @@ function App() {
     <Router>
       <UserProvider>
         <Main />
-        <Search />
       </UserProvider>
     </Router>
   );

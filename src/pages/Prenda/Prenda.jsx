@@ -35,10 +35,29 @@ const Prenda = () => {
         window.open(url, '_blank');
     };
 
+    async function guardarEnHistorial(iduser){
+        try {
+            console.log(iduser);
+            const response = await fetch(`http://localhost:3000/api/users/post-to-history/${iduser}/${prenda.id}`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            console.log(response);
+            return response;
+        }
+        catch (error){
+            console.log(error);
+        }
+    }
+
     const irAProbar = (url) => {
         // Codificar la URL de la imagen antes de pasarla como parámetro
         const urlCodificada = encodeURIComponent(url);
         const urlCodificada2 = encodeURIComponent(prenda.link);
+        const guardar = guardarEnHistorial(userId);
+        console.log(guardar);
         navigateTo("/probar/" + urlCodificada +"/" + urlCodificada2);
     }
 
