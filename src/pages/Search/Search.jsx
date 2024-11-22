@@ -1,7 +1,6 @@
 import './Search.css';
 import { useState, useEffect } from 'react';
 import Producto from '../Inicio/Producto.jsx';
-import Marca from '../Inicio/Marca.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,36 +8,68 @@ const API_BASE_URL = 'http://localhost:3000/api/wear';
 const INITIAL_OFFSET = 9;
 
 const Search = () => {
-    const [busqueda, setBusqueda] = useState({ prendas: [], marcas: [] });
+    const [busqueda, setBusqueda] = useState({ prendas: []});
     const [offset, setOffset] = useState(INITIAL_OFFSET);
     const [loading, setLoading] = useState(false);
+    const [recientes, setRecientes] = useState([]); 
     const [value, setValue] = useState('');
     const { user } = useUser();
-    const navigate = useNavigate(); 
 
     const userId = user?.id ?? 3; // Asegúrate de tener un valor válido para el userId
 
     console.log("user:", user);
     console.log("userId:", userId);
+    
+    useEffect(() => {
+        const fetchRecientes = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/history/${userId}`);
+                if (!response.ok) {
+                    throw new Error('No se pudo obtener las búsquedas recientes.');
+                }  
+                const data = await response.json();
+                setRecientes(data); 
+            } catch (error) {
+                console.error("Error al obtener las búsquedas recientes:", error);
+            }
+        };
+            if (userId) {
+            fetchRecientes();
+        }
+    }, [userId]);
 
-    const buscarMarcasYPrendas = async () => {
+    const bloquearBusqueda = async (searchId) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, {
+                method: 'PUT',
+            });
+            if (response.ok) {
+                // Eliminamos la búsqueda bloqueada de la lista
+                setRecientes(prevRecientes => prevRecientes.filter(busqueda => busqueda.id !== searchId));
+            } else {
+                console.error('No se pudo bloquear la búsqueda.');
+            }
+        } catch (error) {
+            console.error("Error al bloquear la búsqueda:", error);
+        }
+    };
+
+    const buscarPrendas = async () => {
         if (value.trim() === '') {
-            setBusqueda({ prendas: [], marcas: [] });
+            setBusqueda({ prendas: []});
             return;
         }
 
         setLoading(true);
         try {
-            const response = await fetch(`${API_BASE_URL}/search/${value}/${userId}/6`);
+            const response = await(`${API_BASE_URL}/search/${value}/${userId}/6`);
             const data = await response.json();
 
             const prendas = data.prendas || [];
-            const marcas = data.marcas || [];
 
             // Actualizamos el estado sin sobrescribir lo que ya tenemos
             setBusqueda(prev => ({
                 prendas: prendas.length > 0 ? prendas : prev.prendas,
-                marcas: marcas.length > 0 ? marcas : prev.marcas
             }));
         } catch (error) {
             console.error("Error en la búsqueda:", error);
@@ -49,7 +80,7 @@ const Search = () => {
 
     useEffect(() => {
         if (user && value.trim() !== '') {  // Asegura que haya un usuario y que el valor no esté vacío
-            buscarMarcasYPrendas();
+            buscarPrendas();
         }
     }, [value]);
 
@@ -86,10 +117,6 @@ const Search = () => {
         }
     };
 
-    const IrAMarca = (username) => {
-        console.log("Paso 15: Navegando a la marca:", username);
-        navigate(`../username/${username}`);
-    };
 
     const handleScroll = () => {
         if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 200) {
@@ -116,23 +143,17 @@ const Search = () => {
                 />
                 <h4>Cancelar</h4>
             </div>
-            
-            <div className='marcas'>
-                <h2>Marcas</h2>
-                <div className="marcaContainer">
-                    {busqueda.marcas.length > 0 ? (
-                        busqueda.marcas.slice(0, 5).map((marca) => (
-                            <Marca 
-                                key={`marca-${marca.id}`} 
-                                idMarca={marca.id} 
-                                username={marca.username} 
-                                onClick={() => IrAMarca(marca.username)}
-                            />
-                        ))
-                    ) : (
-                        <p>No hay marcas disponibles.</p>
-                    )}
-                </div>
+
+            <div className='recientes'>
+                <h2>Búsquedas Recientes</h2>
+                <ul>
+                    {recientes.map(busqueda => (
+                        <li key={busqueda.id}>
+                            {busqueda.search}
+                            <button onClick={() => bloquearBusqueda(busqueda.id)}>X</button>
+                        </li>
+                    ))}
+                </ul>
             </div>
 
             <div className='prendas'>

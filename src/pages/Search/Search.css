@@ -36,12 +36,11 @@
     margin-left: 10px;
 }
 
-#Search .marcas {
+#Search .prendas {
     width: 90%;
-    margin-bottom: 20px;
 }
 
-#Search .marcas h2 {
+#Search .prendas h2 {
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     letter-spacing: -1px;
@@ -49,40 +48,11 @@
     margin-bottom: 10px;
 }
 
-#Search .marcaContainer {
-    display: flex;
-    overflow-x: auto; 
-    gap: 10px;
-}
-
-#Search .marca {
-    min-width: 120px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-
-#Search .marca:hover {
-    transform: scale(1.05);
-}
-
-#Search .marca h4 {
-    font-family: "Montserrat", sans-serif;
-    font-size: 0.9em;
-    font-weight: 600;
-    margin: 0;
-}
-
-#Search .prendas {
+#Search .recientes {
     width: 90%;
 }
 
-#Search .prendas h2 {
+#Search .recientes h2 {
     font-family: "Montserrat", sans-serif;
     font-weight: 600;
     letter-spacing: -1px;
