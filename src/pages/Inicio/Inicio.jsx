@@ -13,7 +13,7 @@ import FilterModal from '../../components/contexts/FilterModal.jsx';
 
 async function TraerPrendas(offset, limit, user) {
     const userId = user ? user.id : 2;
-    let prendas = await fetch(`http://localhost:3000/api/wear/random/${userId}`);
+    let prendas = await fetch(` https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/wear/random/${userId}`);
     prendas = await prendas.json();
     prendas = prendas.filter(element => !(element==null));
     return prendas;
@@ -26,7 +26,6 @@ const Inicio = () => {
     const [offset, setOffset] = useState(0);
     const [loading, setLoading] = useState(false);
     const [showFilterModal, setShowFilterModal] = useState(false);
-
     let load = false
     const ref = useRef();
     const navigateTo = useNavigate()
@@ -97,7 +96,7 @@ const Inicio = () => {
                 <button className='buttonLink' onClick={() => setShowFilterModal(true)}>Filtros</button>
                 <article className='productos' ref={ref}>
                     {prendas.map(element => (
-                        <Producto idCreator = {element.idCreator} id={element.id}key={"inicio-"+element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
+                        <Producto idPrenda = {element.id} idUser={userId}key={"inicio-"+element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
                     ))}
                     {loading && 
                         <div className='width100'>

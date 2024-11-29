@@ -33,7 +33,7 @@ function Main() {
     <>
       <Routes>
         <Route path="/" element={<Start />} />
-        <Route path="/:user/:id" element={<Prenda />} />
+        <Route path="/:id" element={<Prenda />} />
         <Route path="/probar/:img/:site" element={<Probar/>} />
         <Route path="/result/:img" element={<Result/>} />
         <Route path="/login" element={<Login />} />
