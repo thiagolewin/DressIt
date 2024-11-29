@@ -18,19 +18,29 @@ const Perfil = () => {
     } else {
         user.username = userParams.user
     }
+
     const [userInfo, setUserInfo] = useState(null); // Inicializa como null para manejar mejor los estados
     const [userPosts, setUserPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [offset, setOffset] = useState(0);
+
     const cargarPrendas = async () => {
         if (loading) return;
         setLoading(true);
         try {
             console.log(offset)
-            let prendasObtenidas = await fetch(` https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/wear/brand/` + user.username + "/" + offset +"/" + 20);
+            let prendasObtenidas = await fetch(`http://localhost:3000/api/wear/brand/` + user.username + "/" + offset +"/" + 20);
             prendasObtenidas = await prendasObtenidas.json();
-            setUserPosts(userPosts => [...userPosts, ...prendasObtenidas]);
-            setOffset(offset + 20);  
+            if (prendasObtenidas.length != 0){
+                setUserPosts(userPosts => [...userPosts, ...prendasObtenidas]);
+                setOffset(offset + 20);  
+            }
+            else{
+                prendasObtenidas = await fetch(`http://localhost:3000/api/wear/getUserPosts/${5}`);
+                prendasObtenidas = await prendasObtenidas.json();
+                console.log(prendasObtenidas);
+                setUserPosts(prendasObtenidas);
+            }
         } catch (error) {
             console.error('Error fetching user posts:', error);
         } finally {
@@ -43,7 +53,7 @@ const Perfil = () => {
         const fetchProfile = async () => {
             try {
                 setLoading(true);
-                let userResponse = await fetch(` https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/users/getuser/` + user.username);
+                let userResponse = await fetch(` http://localhost:3000/api/users/getuser/` + user.username);
                 let userData = await userResponse.json();
                 if (userData.username == null|| userData.username == undefined) {
                     setUserInfo(undefined); // Si no se encuentra usuario, establece como undefined
@@ -83,20 +93,6 @@ const Perfil = () => {
                 <>
                     <img src={userInfo.pfp} alt={`${userInfo.name}'s profile`} className='profilePicture' />
                     <h2>{userInfo.username}</h2>
-                    <div className='numberProfile'>
-                        <div>
-                            <h4>25</h4>
-                            <h5>Publicaciones</h5>
-                        </div>
-                        <div>
-                            <h4>25</h4>
-                            <h5>Publicaciones</h5>
-                        </div>
-                        <div>
-                            <h4>25</h4>
-                            <h5>Publicaciones</h5>
-                        </div>
-                    </div>
                     <button className='follow'>Seguir</button>
                     <hr />
                     <article className='productos'>
