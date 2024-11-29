@@ -4,7 +4,11 @@ import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import PropTypes from 'prop-types';
 
+<<<<<<< HEAD
 const API_BASE_URL = '  https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/wear';
+=======
+const API_BASE_URL = 'http://localhost:3000/api/wear';
+>>>>>>> cd7f6d8bd647ba5a81e1fcdbe8f903b5d1b19633
 
 const Search = () => {
     const [searchResults, setSearchResults] = useState({ prendas: [] });
@@ -31,7 +35,7 @@ const Search = () => {
 
     const blockSearch = async (searchId) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/history/blocked/${searchId}`, { method: 'PUT' });
+            const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, { method: 'PUT' });
             if (response.ok) {
                 setRecentSearches(prev => prev.filter(search => search.id !== searchId));
             } else {
@@ -72,9 +76,12 @@ const Search = () => {
                 />
             </div>
 
-            {/* Ocultar búsquedas recientes si hay texto en la barra de búsqueda */}
             {!searchQuery.trim() && (
-                <RecentSearches searches={recentSearches} onBlock={blockSearch} />
+                <RecentSearches
+                    searches={recentSearches}
+                    onBlock={blockSearch}
+                    onSelect={(query) => setSearchQuery(query)}
+                />
             )}
 
             <div className="prendas">
@@ -98,13 +105,18 @@ const Search = () => {
     );
 };
 
-const RecentSearches = ({ searches, onBlock }) => (
+const RecentSearches = ({ searches, onBlock, onSelect }) => (
     <div className="recientes">
         <h2>Búsquedas Recientes</h2>
         <ul>
             {searches.map(search => (
                 <li key={search.id} className="recent-item">
-                    <span>{search.search || `Marca ID ${search.idBrand}`}</span>
+                    <span
+                        className="recent-query"
+                        onClick={() => onSelect(search.search || `Marca ID ${search.idBrand}`)}
+                    >
+                        {search.search || `Marca ID ${search.idBrand}`}
+                    </span>
                     <button className="block-btn" onClick={() => onBlock(search.id)}>X</button>
                 </li>
             ))}
@@ -121,6 +133,7 @@ RecentSearches.propTypes = {
         })
     ).isRequired,
     onBlock: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
 };
 
 const LoadingSpinner = () => (
