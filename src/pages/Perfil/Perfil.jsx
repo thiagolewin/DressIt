@@ -29,14 +29,14 @@ const Perfil = () => {
         setLoading(true);
         try {
             console.log(offset)
-            let prendasObtenidas = await fetch(`http://localhost:3000/api/wear/brand/` + user.username + "/" + offset +"/" + 20);
+            let prendasObtenidas = await fetch(` https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/wear/brand/` + user.username + "/" + offset +"/" + 20);
             prendasObtenidas = await prendasObtenidas.json();
             if (prendasObtenidas.length != 0){
                 setUserPosts(userPosts => [...userPosts, ...prendasObtenidas]);
                 setOffset(offset + 20);  
             }
             else{
-                prendasObtenidas = await fetch(`http://localhost:3000/api/wear/getUserPosts/${5}`);
+                prendasObtenidas = await fetch(` https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/wear/getUserPosts/${user.id}`);
                 prendasObtenidas = await prendasObtenidas.json();
                 console.log(prendasObtenidas);
                 setUserPosts(prendasObtenidas);
@@ -53,7 +53,7 @@ const Perfil = () => {
         const fetchProfile = async () => {
             try {
                 setLoading(true);
-                let userResponse = await fetch(` http://localhost:3000/api/users/getuser/` + user.username);
+                let userResponse = await fetch(`  https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/users/getuser/` + user.username);
                 let userData = await userResponse.json();
                 if (userData.username == null|| userData.username == undefined) {
                     setUserInfo(undefined); // Si no se encuentra usuario, establece como undefined
@@ -96,8 +96,10 @@ const Perfil = () => {
                     <button className='follow'>Seguir</button>
                     <hr />
                     <article className='productos'>
+                        {console.log("acaaa",userPosts[0].id)}
                         {userPosts.map(element => (
-                            <Producto idCreator={element.idCreator} id={element.id} key={"profile-"+element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
+                            
+                           <Producto idPrenda = {element.id[0]} idUser={user.id}key={"inicio-"+element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
                         ))}
                         {loading && (
                             <div className='width100'>

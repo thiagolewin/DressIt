@@ -4,7 +4,7 @@ import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import PropTypes from 'prop-types';
 
-const API_BASE_URL = ' http://localhost:3000/api/wear';
+const API_BASE_URL = '  https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/wear';
 
 const Search = () => {
     const [searchResults, setSearchResults] = useState({ prendas: [] });
