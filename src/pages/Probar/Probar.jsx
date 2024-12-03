@@ -85,7 +85,7 @@ const Probar = () => {
       formData.append('garment_url', img);
       setCargando(true);
       try {
-        const response = await fetch("  https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/image/post", {
+        const response = await fetch("   https://76d1-200-73-176-50.ngrok-free.app/api/image/post", {
           method: "POST",
           body: formData
         });
