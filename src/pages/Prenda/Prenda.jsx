@@ -15,11 +15,7 @@ const Prenda = () => {
     async function TraerPrenda(id,iduser) {
         console.log(id)
         try {
-<<<<<<< HEAD
             const response = await fetch(`http://localhost:3000/api/wear/${id}/${iduser}`);
-=======
-            const response = await fetch(`  https://76d1-200-73-176-50.ngrok-free.app/api/wear/${id}/${iduser}`);
->>>>>>> 172cbf75b938b59385e7eca86bfe96051aaa524b
             const data = await response.json();
             return data[0];
         } catch (error) {
@@ -43,11 +39,7 @@ const Prenda = () => {
     async function guardarEnHistorial(iduser){
         try {
             console.log(iduser);
-<<<<<<< HEAD
             const response = await fetch(`http://localhost:3000/api/users/post-to-history/${iduser}/${prenda.id}`, {
-=======
-            const response = await fetch(`  https://76d1-200-73-176-50.ngrok-free.app/api/users/post-to-history/${iduser}/${prenda.id}`, {
->>>>>>> 172cbf75b938b59385e7eca86bfe96051aaa524b
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
