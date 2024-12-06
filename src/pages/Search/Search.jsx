@@ -30,6 +30,19 @@ const Search = () => {
         }
     };
 
+    // Bloquear (ocultar) una búsqueda del historial
+    const blockSearch = async (searchId) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, { method: 'PUT' });
+            if (response.ok) {
+                setRecentSearches(prev => prev.filter(search => search.id !== searchId));
+            } else {
+                console.error('Error al bloquear la búsqueda.');
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    };
     // Buscar resultados de prendas
     const fetchSearchResults = async () => {
         if (!searchQuery.trim()) return;
@@ -70,6 +83,7 @@ const Search = () => {
                 <RecentSearches
                     searches={recentSearches}
                     onSelect={(query) => setSearchQuery(query)}
+                    onBlock={blockSearch}
                 />
             )}
 
@@ -96,7 +110,7 @@ const Search = () => {
 };
 
 // Historial reciente
-const RecentSearches = ({ searches, onSelect }) => (
+const RecentSearches = ({ searches, onBlock, onSelect }) => (
     <div className="recientes">
         <h2>Búsquedas Recientes</h2>
         <ul>
@@ -108,6 +122,7 @@ const RecentSearches = ({ searches, onSelect }) => (
                     >
                         {search.search}
                     </span>
+                    <button className="block-btn" onClick={() => onBlock(search.id)}>X</button>
                 </li>
             ))}
         </ul>
@@ -119,6 +134,7 @@ RecentSearches.propTypes = {
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             search: PropTypes.string.isRequired,
+            onBlock: PropTypes.func.isRequired,
         })
     ).isRequired,
     onSelect: PropTypes.func.isRequired,
