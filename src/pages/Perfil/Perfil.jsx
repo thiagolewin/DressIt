@@ -29,22 +29,14 @@ const Perfil = () => {
         setLoading(true);
         try {
             console.log(offset)
-<<<<<<< HEAD
             let prendasObtenidas = await fetch(`http://localhost:3000/api/wear/brand/` + user.username + "/" + offset +"/" + 20);
-=======
-            let prendasObtenidas = await fetch(`  https://76d1-200-73-176-50.ngrok-free.app/api/wear/brand/` + user.username + "/" + offset +"/" + 20);
->>>>>>> 172cbf75b938b59385e7eca86bfe96051aaa524b
             prendasObtenidas = await prendasObtenidas.json();
             if (prendasObtenidas.length != 0){
                 setUserPosts(userPosts => [...userPosts, ...prendasObtenidas]);
                 setOffset(offset + 20);  
             }
             else{
-<<<<<<< HEAD
                 prendasObtenidas = await fetch(`http://localhost:3000/api/wear/getUserPosts/${user.id}`);
-=======
-                prendasObtenidas = await fetch(`  https://76d1-200-73-176-50.ngrok-free.app/api/wear/getUserPosts/${user.id}`);
->>>>>>> 172cbf75b938b59385e7eca86bfe96051aaa524b
                 prendasObtenidas = await prendasObtenidas.json();
                 console.log(prendasObtenidas);
                 setUserPosts(prendasObtenidas);
@@ -61,11 +53,7 @@ const Perfil = () => {
         const fetchProfile = async () => {
             try {
                 setLoading(true);
-<<<<<<< HEAD
                 let userResponse = await fetch(`http://localhost:3000/api/users/getuser/` + user.username);
-=======
-                let userResponse = await fetch(`   https://76d1-200-73-176-50.ngrok-free.app/api/users/getuser/` + user.username);
->>>>>>> 172cbf75b938b59385e7eca86bfe96051aaa524b
                 let userData = await userResponse.json();
                 if (userData.username == null|| userData.username == undefined) {
                     setUserInfo(undefined); // Si no se encuentra usuario, establece como undefined

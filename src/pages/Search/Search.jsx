@@ -21,7 +21,7 @@ const Search = () => {
     // Fetch recent searches (excluding blocked ones)
     const fetchRecentSearches = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/history/${userId}`);
+            const response = await fetch(`http://localhost:3000/api/wear/history/${userId}`);
             if (!response.ok) throw new Error('Error al obtener búsquedas recientes');
             const data = await response.json();
             setRecentSearches(data.filter(search => !search.blocked)); 
@@ -33,7 +33,7 @@ const Search = () => {
     // Block a search and update local state
     const blockSearch = async (searchId) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, { method: 'PUT' });
+            const response = await fetch(`http://localhost:3000/api/wear/history/block/${searchId}`, { method: 'PUT' });
             if (response.ok) {
                 setRecentSearches(prev => prev.filter(search => search.id !== searchId));
             } else {
@@ -50,7 +50,7 @@ const Search = () => {
 
         setLoading(true);
         try {
-            const response = await fetch(`${API_BASE_URL}/search/${searchQuery}/${userId}/6`);
+            const response = await fetch(`http://localhost:3000/api/wear/search/${searchQuery}/${userId}/6`);
             const data = await response.json();
             setSearchResults({ prendas: data.prendas || [] });
         } catch (error) {
