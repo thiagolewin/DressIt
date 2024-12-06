@@ -13,7 +13,7 @@ import FilterModal from '../../components/contexts/FilterModal.jsx';
 
 async function TraerPrendas(offset, limit, user) {
     const userId = user ? user.id : 2;
-    let prendas = await fetch(`http://localhost:3000/api/wear/random/${userId}`);
+    let prendas = await fetch(`https://6f72-2800-40-39-4dc9-dd2b-6ab9-3c47-e4e.ngrok-free.app/api/wear/random/${userId}`);
     prendas = await prendas.json();
     prendas = prendas.filter(element => !(element==null));
     return prendas;
