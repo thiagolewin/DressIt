@@ -106,13 +106,13 @@ const RecentSearches = ({ searches, onBlock, onSelect }) => (
     <div className="recientes">
         <h2>Búsquedas Recientes</h2>
         <ul>
-            {searches.map(search => (
+        {searches.map(search => (
                 <li key={search.id} className="recent-item">
                     <span
                         className="recent-query"
-                        onClick={() => onSelect(search.search || `Marca ID ${search.idBrand}`)}
+                        onClick={() => onSelect(search.search)}
                     >
-                        {search.search || `Marca ID ${search.idBrand}`}
+                        {search.search}
                     </span>
                     <button className="block-btn" onClick={() => onBlock(search.id)}>X</button>
                 </li>
