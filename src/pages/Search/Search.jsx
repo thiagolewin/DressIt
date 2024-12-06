@@ -3,6 +3,12 @@ import { useState, useEffect } from 'react';
 import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
+=======
+
+const API_BASE_URL = ' https://76d1-200-73-176-50.ngrok-free.app/api/wear';
+
+>>>>>>> 172cbf75b938b59385e7eca86bfe96051aaa524b
 const Search = () => {
     const [searchResults, setSearchResults] = useState({ prendas: [] });
     const [recentSearches, setRecentSearches] = useState([]);

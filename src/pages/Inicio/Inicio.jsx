@@ -93,7 +93,6 @@ const Inicio = () => {
                 <hr />
             </div>
             <div className='articulos'>
-                <button className='buttonLink' onClick={() => setShowFilterModal(true)}>Filtros</button>
                 <article className='productos' ref={ref}>
                     {prendas.map(element => (
                         <Producto idPrenda = {element.id} idUser={userId}key={"inicio-"+element.id} backgroundImageUrl={element.imgPath} precio={element.price} titulo={element.name} />
