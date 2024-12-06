@@ -33,7 +33,7 @@ const Login = () => {
             imageUrl: profileObj.imageUrl
         };
         
-        let res = await fetch(" https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/users/google-login", {
+        let res = await fetch("http://localhost:3000/api/users/google-login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -62,7 +62,7 @@ const Login = () => {
             pass: password
         };
 
-        let response = await fetch(" https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/users/login", {
+        let response = await fetch("http://localhost:3000/api/users/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

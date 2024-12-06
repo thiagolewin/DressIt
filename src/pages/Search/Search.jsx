@@ -3,13 +3,6 @@ import { useState, useEffect } from 'react';
 import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import PropTypes from 'prop-types';
-
-<<<<<<< HEAD
-const API_BASE_URL = '  https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/wear';
-=======
-const API_BASE_URL = 'http://localhost:3000/api/wear';
->>>>>>> cd7f6d8bd647ba5a81e1fcdbe8f903b5d1b19633
-
 const Search = () => {
     const [searchResults, setSearchResults] = useState({ prendas: [] });
     const [recentSearches, setRecentSearches] = useState([]);
@@ -24,7 +17,7 @@ const Search = () => {
 
     const fetchRecentSearches = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/history/${userId}`);
+            const response = await fetch(`http://localhost:3000/api/wear/history/${userId}`);
             if (!response.ok) throw new Error('Error al obtener búsquedas recientes');
             const data = await response.json();
             setRecentSearches(data);
@@ -35,7 +28,7 @@ const Search = () => {
 
     const blockSearch = async (searchId) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, { method: 'PUT' });
+            const response = await fetch(`http://localhost:3000/api/wear/history/block/${searchId}`, { method: 'PUT' });
             if (response.ok) {
                 setRecentSearches(prev => prev.filter(search => search.id !== searchId));
             } else {
@@ -51,7 +44,7 @@ const Search = () => {
 
         setLoading(true);
         try {
-            const response = await fetch(`${API_BASE_URL}/search/${searchQuery}/${userId}/6`);
+            const response = await fetch(`http://localhost:3000/api/wear/search/${searchQuery}/${userId}/6`);
             const data = await response.json();
             setSearchResults({ prendas: data.prendas || [] });
         } catch (error) {

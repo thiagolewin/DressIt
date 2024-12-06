@@ -50,7 +50,7 @@ const RegisterUser = ()=> {
             const user = data
             user.name = newUsername
             console.log(user)
-            let res = await fetch("  https://b3a2-2800-40-39-4dc9-3906-cf62-7a7c-bbbf.ngrok-free.app/api/users/google-login", {
+            let res = await fetch("http://localhost:3000/api/users/google-login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
