@@ -30,48 +30,17 @@ const Search = () => {
         }
     };
 
-    // Bloquear (ocultar) una búsqueda del historial
-    const blockSearch = async (searchId) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, { method: 'PUT' });
-            if (response.ok) {
-                setRecentSearches(prev => prev.filter(search => search.id !== searchId));
-            } else {
-                console.error('Error al bloquear la búsqueda.');
-            }
-        } catch (error) {
-            console.error(error.message);
-        }
-    };
-
-    // Agregar una búsqueda al historial
-    const addSearchToHistory = async (searchTerm) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/history/add`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ idUser: userId, searchTerm }),
-            });
-            if (!response.ok) throw new Error('Error al agregar búsqueda al historial');
-        } catch (error) {
-            console.error('Error al agregar búsqueda al historial:', error);
-        }
-    };
-
     // Buscar resultados de prendas
     const fetchSearchResults = async () => {
         if (!searchQuery.trim()) return;
 
         setLoading(true);
         try {
+            // Realizar la búsqueda y guardar automáticamente en el historial
             const response = await fetch(`${API_BASE_URL}/search/${searchQuery}/${userId}/6`);
+            if (!response.ok) throw new Error('Error al buscar prendas');
             const data = await response.json();
             setSearchResults({ prendas: data.prendas || [] });
-
-            // Agregar búsqueda válida al historial
-            if (data.prendas && data.prendas.length > 0) {
-                await addSearchToHistory(searchQuery);
-            }
         } catch (error) {
             console.error('Error al buscar prendas:', error.message);
         } finally {
@@ -80,8 +49,10 @@ const Search = () => {
     };
 
     useEffect(() => {
-        if (searchQuery.trim()) fetchSearchResults();
-    }, [searchQuery]);
+        if (searchQuery.trim()) {
+            fetchSearchResults(); // Llamar a la búsqueda cuando hay texto
+        }
+    }, [searchQuery]); // Ejecutar al cambiar la query
 
     return (
         <section id="Search">
@@ -98,7 +69,6 @@ const Search = () => {
             {!searchQuery.trim() && (
                 <RecentSearches
                     searches={recentSearches}
-                    onBlock={blockSearch}
                     onSelect={(query) => setSearchQuery(query)}
                 />
             )}
@@ -126,7 +96,7 @@ const Search = () => {
 };
 
 // Historial reciente
-const RecentSearches = ({ searches, onBlock, onSelect }) => (
+const RecentSearches = ({ searches, onSelect }) => (
     <div className="recientes">
         <h2>Búsquedas Recientes</h2>
         <ul>
@@ -138,14 +108,12 @@ const RecentSearches = ({ searches, onBlock, onSelect }) => (
                     >
                         {search.search}
                     </span>
-                    <button className="block-btn" onClick={() => onBlock(search.id)}>X</button>
                 </li>
             ))}
         </ul>
     </div>
 );
 
-// Validaciones de propiedades del componente RecentSearches
 RecentSearches.propTypes = {
     searches: PropTypes.arrayOf(
         PropTypes.shape({
@@ -153,7 +121,6 @@ RecentSearches.propTypes = {
             search: PropTypes.string.isRequired,
         })
     ).isRequired,
-    onBlock: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
 };
 
