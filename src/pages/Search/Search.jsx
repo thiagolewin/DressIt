@@ -4,7 +4,7 @@ import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import PropTypes from 'prop-types';
 
-const API_BASE_URL = 'https://76d1-200-73-176-50.ngrok-free.app/api/wear';
+const API_BASE_URL = 'http://localhost:3000/api/wear'; // Asegúrate de que esta dirección coincida con el backend
 
 const Search = () => {
     const [searchResults, setSearchResults] = useState({ prendas: [] });
@@ -18,19 +18,19 @@ const Search = () => {
         if (userId) fetchRecentSearches();
     }, [userId]);
 
-    // Fetch recent searches (excluding blocked ones)
+    // Obtener el historial reciente
     const fetchRecentSearches = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/history/${userId}`);
             if (!response.ok) throw new Error('Error al obtener búsquedas recientes');
             const data = await response.json();
-            setRecentSearches(data.filter(search => !search.blocked)); 
+            setRecentSearches(data);
         } catch (error) {
-            console.error('Error al obtener búsquedas recientes:', error.message);
+            console.error(error.message);
         }
     };
 
-    // Block a search and update local state
+    // Bloquear (ocultar) una búsqueda del historial
     const blockSearch = async (searchId) => {
         try {
             const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, { method: 'PUT' });
@@ -40,11 +40,25 @@ const Search = () => {
                 console.error('Error al bloquear la búsqueda.');
             }
         } catch (error) {
-            console.error('Error al bloquear la búsqueda:', error.message);
+            console.error(error.message);
         }
     };
 
-    // Fetch search results for a query
+    // Agregar una búsqueda al historial
+    const addSearchToHistory = async (searchTerm) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/history/add`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idUser: userId, searchTerm }),
+            });
+            if (!response.ok) throw new Error('Error al agregar búsqueda al historial');
+        } catch (error) {
+            console.error('Error al agregar búsqueda al historial:', error);
+        }
+    };
+
+    // Buscar resultados de prendas
     const fetchSearchResults = async () => {
         if (!searchQuery.trim()) return;
 
@@ -53,6 +67,11 @@ const Search = () => {
             const response = await fetch(`${API_BASE_URL}/search/${searchQuery}/${userId}/6`);
             const data = await response.json();
             setSearchResults({ prendas: data.prendas || [] });
+
+            // Agregar búsqueda válida al historial
+            if (data.prendas && data.prendas.length > 0) {
+                await addSearchToHistory(searchQuery);
+            }
         } catch (error) {
             console.error('Error al buscar prendas:', error.message);
         } finally {
@@ -75,6 +94,7 @@ const Search = () => {
                 />
             </div>
 
+            {/* Mostrar historial reciente solo cuando no hay búsqueda activa */}
             {!searchQuery.trim() && (
                 <RecentSearches
                     searches={recentSearches}
@@ -83,6 +103,7 @@ const Search = () => {
                 />
             )}
 
+            {/* Mostrar resultados de búsqueda */}
             <div className="prendas">
                 <h2>Prendas</h2>
                 <div className="productos">
@@ -104,6 +125,7 @@ const Search = () => {
     );
 };
 
+// Historial reciente
 const RecentSearches = ({ searches, onBlock, onSelect }) => (
     <div className="recientes">
         <h2>Búsquedas Recientes</h2>
@@ -123,19 +145,19 @@ const RecentSearches = ({ searches, onBlock, onSelect }) => (
     </div>
 );
 
+// Validaciones de propiedades del componente RecentSearches
 RecentSearches.propTypes = {
     searches: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             search: PropTypes.string.isRequired,
-            blocked: PropTypes.bool, 
         })
     ).isRequired,
     onBlock: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
 };
 
-// Loading Spinner Component
+// Componente de carga
 const LoadingSpinner = () => (
     <div className="loading">
         <div className="dot-wave">
