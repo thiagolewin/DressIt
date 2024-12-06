@@ -89,12 +89,13 @@ const Search = () => {
             {/* Mostrar resultados de búsqueda */}
             <div className="prendas">
                 <h2>Prendas</h2>
+                {console.log(searchResults)}
                 <div className="productos">
                     {searchResults.prendas.map(item => (
                         <Producto
                             key={item.id}
                             idCreator={item.idCreator}
-                            id={item.id}
+                            idPrenda = {item.id}
                             backgroundImageUrl={item.imgPath}
                             precio={item.price}
                             titulo={item.name}
