@@ -113,7 +113,7 @@ const Perfil = () => {
                         )}
                     </article>
                 </>
-            )}git 
+            )} 
             {userInfo === undefined && <p>Perfil no encontrado</p>}
         </section>
     );

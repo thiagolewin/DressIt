@@ -1,10 +1,9 @@
 import './Search.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
-import PropTypes from 'prop-types';
 
-const API_BASE_URL = 'http://localhost:3000/api/wear'; // Asegúrate de que esta dirección coincida con el backend
+const API_BASE_URL = 'http://localhost:3000/api/wear';
 
 const Search = () => {
     const [searchResults, setSearchResults] = useState({ prendas: [] });
@@ -14,11 +13,12 @@ const Search = () => {
     const { user } = useUser();
     const userId = user?.id || 3;
 
+    // Obtener historial reciente al cargar el componente
     useEffect(() => {
         if (userId) fetchRecentSearches();
     }, [userId]);
 
-    // Obtener el historial reciente
+    // Obtener historial reciente desde el backend
     const fetchRecentSearches = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/history/${userId}`);
@@ -26,30 +26,42 @@ const Search = () => {
             const data = await response.json();
             setRecentSearches(data);
         } catch (error) {
-            console.error(error.message);
+            console.error('Error al obtener historial:', error);
         }
     };
 
-    // Bloquear (ocultar) una búsqueda del historial
-    const blockSearch = async (searchId) => {
+    // Actualizar historial cuando el usuario busca algo nuevo
+    const addSearchToHistory = useCallback(async (search) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, { method: 'PUT' });
-            if (response.ok) {
-                setRecentSearches(prev => prev.filter(search => search.id !== searchId));
-            } else {
-                console.error('Error al bloquear la búsqueda.');
-            }
+            await fetch(`${API_BASE_URL}/history/add/${search}/${userId}`, {
+                method: 'POST',
+            });
+            // Refrescar el historial después de agregar
+            await fetchRecentSearches();
         } catch (error) {
-            console.error(error.message);
+            console.error('Error al agregar búsqueda al historial:', error);
+        }
+    }, [userId]);
+
+    // Eliminar un ítem del historial
+    const deleteSearchFromHistory = async (searchId) => {
+        try {
+            await fetch(`${API_BASE_URL}/history/${searchId}`, {
+                method: 'DELETE',
+            });
+            // Refrescar el historial después de eliminar
+            await fetchRecentSearches();
+        } catch (error) {
+            console.error('Error al eliminar búsqueda:', error);
         }
     };
+
     // Buscar resultados de prendas
     const fetchSearchResults = async () => {
         if (!searchQuery.trim()) return;
 
         setLoading(true);
         try {
-            // Realizar la búsqueda y guardar automáticamente en el historial
             const response = await fetch(`${API_BASE_URL}/search/${searchQuery}/${userId}/6`);
             if (!response.ok) throw new Error('Error al buscar prendas');
             const data = await response.json();
@@ -61,11 +73,13 @@ const Search = () => {
         }
     };
 
+    // Escuchar cambios en el campo de búsqueda
     useEffect(() => {
         if (searchQuery.trim()) {
-            fetchSearchResults(); // Llamar a la búsqueda cuando hay texto
+            fetchSearchResults();
+            addSearchToHistory(searchQuery); // Guardar búsqueda en el historial
         }
-    }, [searchQuery]); // Ejecutar al cambiar la query
+    }, [searchQuery, addSearchToHistory]);
 
     return (
         <section id="Search">
@@ -78,13 +92,29 @@ const Search = () => {
                 />
             </div>
 
-            {/* Mostrar historial reciente solo cuando no hay búsqueda activa */}
+            {/* Mostrar historial reciente */}
             {!searchQuery.trim() && (
-                <RecentSearches
-                    searches={recentSearches}
-                    onSelect={(query) => setSearchQuery(query)}
-                    onBlock={blockSearch}
-                />
+                <div className="recientes">
+                    <h2>Busquedas recientes</h2>
+                    <ul>
+                        {recentSearches.map(search => (
+                            <li key={search.id} className="recent-item">
+                                <span
+                                    onClick={() => setSearchQuery(search.search)}
+                                    className="recent-query"
+                                >
+                                    {search.search}
+                                </span>
+                                <button
+                                    className="block-btn"
+                                    onClick={() => deleteSearchFromHistory(search.id)}
+                                >
+                                    X
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             )}
 
             {/* Mostrar resultados de búsqueda */}
@@ -107,37 +137,6 @@ const Search = () => {
             {loading && <LoadingSpinner />}
         </section>
     );
-};
-
-// Historial reciente
-const RecentSearches = ({ searches, onBlock, onSelect }) => (
-    <div className="recientes">
-        <h2>Búsquedas Recientes</h2>
-        <ul>
-            {searches.map(search => (
-                <li key={search.id} className="recent-item">
-                    <span
-                        className="recent-query"
-                        onClick={() => onSelect(search.search)}
-                    >
-                        {search.search}
-                    </span>
-                    <button className="block-btn" onClick={() => onBlock(search.id)}>X</button>
-                </li>
-            ))}
-        </ul>
-    </div>
-);
-
-RecentSearches.propTypes = {
-    searches: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.number.isRequired,
-            search: PropTypes.string.isRequired,
-            onBlock: PropTypes.func.isRequired,
-        })
-    ).isRequired,
-    onSelect: PropTypes.func.isRequired,
 };
 
 // Componente de carga
