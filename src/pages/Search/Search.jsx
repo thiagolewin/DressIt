@@ -14,41 +14,43 @@ const Search = () => {
     const { user } = useUser();
     const userId = user?.id || 3;
 
-
     useEffect(() => {
         if (userId) fetchRecentSearches();
     }, [userId]);
-    
+
+    // Fetch recent searches (excluding blocked ones)
     const fetchRecentSearches = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/history/${userId}`);
+            const response = await fetch(`${API_BASE_URL}/history/${userId}`);
             if (!response.ok) throw new Error('Error al obtener búsquedas recientes');
             const data = await response.json();
-            setRecentSearches(data);
+            setRecentSearches(data.filter(search => !search.blocked)); 
         } catch (error) {
-            console.error(error.message);
+            console.error('Error al obtener búsquedas recientes:', error.message);
         }
     };
 
+    // Block a search and update local state
     const blockSearch = async (searchId) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/history/block/${searchId}`, { method: 'PUT' });
+            const response = await fetch(`${API_BASE_URL}/history/block/${searchId}`, { method: 'PUT' });
             if (response.ok) {
                 setRecentSearches(prev => prev.filter(search => search.id !== searchId));
             } else {
                 console.error('Error al bloquear la búsqueda.');
             }
         } catch (error) {
-            console.error(error.message);
+            console.error('Error al bloquear la búsqueda:', error.message);
         }
     };
 
+    // Fetch search results for a query
     const fetchSearchResults = async () => {
         if (!searchQuery.trim()) return;
 
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/search/${searchQuery}/${userId}/6`);
+            const response = await fetch(`${API_BASE_URL}/search/${searchQuery}/${userId}/6`);
             const data = await response.json();
             setSearchResults({ prendas: data.prendas || [] });
         } catch (error) {
@@ -106,7 +108,7 @@ const RecentSearches = ({ searches, onBlock, onSelect }) => (
     <div className="recientes">
         <h2>Búsquedas Recientes</h2>
         <ul>
-        {searches.map(search => (
+            {searches.map(search => (
                 <li key={search.id} className="recent-item">
                     <span
                         className="recent-query"
@@ -126,12 +128,14 @@ RecentSearches.propTypes = {
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             search: PropTypes.string.isRequired,
+            blocked: PropTypes.bool, 
         })
     ).isRequired,
     onBlock: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
 };
 
+// Loading Spinner Component
 const LoadingSpinner = () => (
     <div className="loading">
         <div className="dot-wave">
