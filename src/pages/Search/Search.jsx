@@ -3,12 +3,9 @@ import { useState, useEffect } from 'react';
 import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import PropTypes from 'prop-types';
-<<<<<<< HEAD
-=======
 
-const API_BASE_URL = ' https://76d1-200-73-176-50.ngrok-free.app/api/wear';
+const API_BASE_URL = 'https://76d1-200-73-176-50.ngrok-free.app/api/wear';
 
->>>>>>> 172cbf75b938b59385e7eca86bfe96051aaa524b
 const Search = () => {
     const [searchResults, setSearchResults] = useState({ prendas: [] });
     const [recentSearches, setRecentSearches] = useState([]);
@@ -17,10 +14,11 @@ const Search = () => {
     const { user } = useUser();
     const userId = user?.id || 3;
 
+
     useEffect(() => {
         if (userId) fetchRecentSearches();
     }, [userId]);
-
+    
     const fetchRecentSearches = async () => {
         try {
             const response = await fetch(`http://localhost:3000/api/wear/history/${userId}`);
@@ -127,8 +125,7 @@ RecentSearches.propTypes = {
     searches: PropTypes.arrayOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
-            search: PropTypes.string,
-            idBrand: PropTypes.number,
+            search: PropTypes.string.isRequired,
         })
     ).isRequired,
     onBlock: PropTypes.func.isRequired,
