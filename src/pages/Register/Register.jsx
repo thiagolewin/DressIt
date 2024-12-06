@@ -63,7 +63,7 @@ const Register = () => {
                 username,
                 pass: password
             };
-            let response = await fetch("http://localhost:3000/api/users/register", {
+            let response = await fetch("https://6f72-2800-40-39-4dc9-dd2b-6ab9-3c47-e4e.ngrok-free.app/api/users/register", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ const Register = () => {
             response = await response.json();
             console.log(response);
             if (response.message === "Se ha creado correctamente") {
-                let response = await fetch("http://localhost:3000/api/users/login", {
+                let response = await fetch("https://6f72-2800-40-39-4dc9-dd2b-6ab9-3c47-e4e.ngrok-free.app/api/users/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
@@ -99,7 +99,7 @@ const Register = () => {
             imageUrl: profileObj.imageUrl
         };
 
-        let res = await fetch("http://localhost:3000/api/users/google-login", {
+        let res = await fetch("https://6f72-2800-40-39-4dc9-dd2b-6ab9-3c47-e4e.ngrok-free.app/api/users/google-login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

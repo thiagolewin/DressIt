@@ -4,7 +4,7 @@ import Producto from '../Inicio/Producto.jsx';
 import { useUser } from '../../components/contexts/UserContext.jsx';
 import PropTypes from 'prop-types';
 
-const API_BASE_URL = 'https://76d1-200-73-176-50.ngrok-free.app/api/wear';
+const API_BASE_URL = 'https://6f72-2800-40-39-4dc9-dd2b-6ab9-3c47-e4e.ngrok-free.app/api/wear'; // Asegúrate de que esta dirección coincida con el backend
 
 const Search = () => {
     const [searchResults, setSearchResults] = useState({ prendas: [] });
@@ -18,22 +18,22 @@ const Search = () => {
         if (userId) fetchRecentSearches();
     }, [userId]);
 
-    // Fetch recent searches (excluding blocked ones)
+    // Obtener el historial reciente
     const fetchRecentSearches = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/history/${userId}`);
+            const response = await fetch(`https://6f72-2800-40-39-4dc9-dd2b-6ab9-3c47-e4e.ngrok-free.app/api/wear/history/${userId}`);
             if (!response.ok) throw new Error('Error al obtener búsquedas recientes');
             const data = await response.json();
-            setRecentSearches(data.filter(search => !search.blocked)); 
+            setRecentSearches(data);
         } catch (error) {
-            console.error('Error al obtener búsquedas recientes:', error.message);
+            console.error(error.message);
         }
     };
 
     // Block a search and update local state
     const blockSearch = async (searchId) => {
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/history/block/${searchId}`, { method: 'PUT' });
+            const response = await fetch(`https://6f72-2800-40-39-4dc9-dd2b-6ab9-3c47-e4e.ngrok-free.app/api/wear/history/block/${searchId}`, { method: 'PUT' });
             if (response.ok) {
                 setRecentSearches(prev => prev.filter(search => search.id !== searchId));
             } else {
@@ -50,7 +50,7 @@ const Search = () => {
 
         setLoading(true);
         try {
-            const response = await fetch(`http://localhost:3000/api/wear/search/${searchQuery}/${userId}/6`);
+            const response = await fetch(`https://6f72-2800-40-39-4dc9-dd2b-6ab9-3c47-e4e.ngrok-free.app/api/wear/search/${searchQuery}/${userId}/6`);
             const data = await response.json();
             setSearchResults({ prendas: data.prendas || [] });
         } catch (error) {
@@ -61,8 +61,10 @@ const Search = () => {
     };
 
     useEffect(() => {
-        if (searchQuery.trim()) fetchSearchResults();
-    }, [searchQuery]);
+        if (searchQuery.trim()) {
+            fetchSearchResults(); // Llamar a la búsqueda cuando hay texto
+        }
+    }, [searchQuery]); // Ejecutar al cambiar la query
 
     return (
         <section id="Search">
@@ -75,14 +77,15 @@ const Search = () => {
                 />
             </div>
 
+            {/* Mostrar historial reciente solo cuando no hay búsqueda activa */}
             {!searchQuery.trim() && (
                 <RecentSearches
                     searches={recentSearches}
-                    onBlock={blockSearch}
                     onSelect={(query) => setSearchQuery(query)}
                 />
             )}
 
+            {/* Mostrar resultados de búsqueda */}
             <div className="prendas">
                 <h2>Prendas</h2>
                 <div className="productos">
@@ -104,7 +107,8 @@ const Search = () => {
     );
 };
 
-const RecentSearches = ({ searches, onBlock, onSelect }) => (
+// Historial reciente
+const RecentSearches = ({ searches, onSelect }) => (
     <div className="recientes">
         <h2>Búsquedas Recientes</h2>
         <ul>
@@ -116,7 +120,6 @@ const RecentSearches = ({ searches, onBlock, onSelect }) => (
                     >
                         {search.search}
                     </span>
-                    <button className="block-btn" onClick={() => onBlock(search.id)}>X</button>
                 </li>
             ))}
         </ul>
@@ -128,14 +131,12 @@ RecentSearches.propTypes = {
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             search: PropTypes.string.isRequired,
-            blocked: PropTypes.bool, 
         })
     ).isRequired,
-    onBlock: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
 };
 
-// Loading Spinner Component
+// Componente de carga
 const LoadingSpinner = () => (
     <div className="loading">
         <div className="dot-wave">
